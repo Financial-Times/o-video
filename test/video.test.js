@@ -81,7 +81,8 @@ describe('Video', () => {
 		it('should add a video element', () => {
 			const video = new Video(containerEl);
 			video.rendition = {
-				url: 'http://url.mock'
+				url: 'http://url.mock',
+				videoCodec: 'H264'
 			};
 			video.posterImage = 'mockimage';
 			video.addVideo();
@@ -90,6 +91,7 @@ describe('Video', () => {
 			video.videoEl.parentElement.should.equal(containerEl);
 			video.videoEl.getAttribute('poster').should.equal('mockimage');
 			video.videoEl.getAttribute('src').should.equal('http://url.mock');
+			video.videoEl.getAttribute('type').should.equal('video/mp4');
 			video.videoEl.getAttribute('controls').should.equal('true');
 		});
 

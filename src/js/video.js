@@ -1,6 +1,7 @@
 /* global fetch */
 import crossDomainFetch from 'o-fetch-jsonp';
 import getRendition from './helpers/get-rendition';
+import formats from './helpers/formats';
 import VideoAds from './ads';
 
 function eventListener(video, ev) {
@@ -33,6 +34,13 @@ function updatePosterUrl(posterImage, width) {
 	}
 	return url;
 };
+
+function getVideoType(videoCodec) {
+	const videoTypes = (typeof videoCodec === 'string') ? formats[videoCodec.toLowerCase()] : null;
+	if (videoTypes && typeof videoTypes[0] === 'string') {
+		return videoTypes[0].split(';')[0];
+	}
+}
 
 // converts data-o-video attributes to an options object
 function getOptionsFromDataAttributes(attributes) {
@@ -149,6 +157,9 @@ class Video {
 		this.videoEl.setAttribute('controls', true);
 		this.videoEl.setAttribute('poster', this.posterImage);
 		this.videoEl.setAttribute('src', this.rendition && this.rendition.url);
+		if (this.rendition && getVideoType(this.rendition.videoCodec)) {
+			this.videoEl.setAttribute('type', getVideoType(this.rendition.videoCodec));
+		}
 		this.videoEl.className = Array.isArray(this.opts.classes) ? this.opts.classes.join(' ') : this.opts.classes;
 		this.containerEl.classList.add('o-video--player');
 		this.containerEl.appendChild(this.videoEl);
