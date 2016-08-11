@@ -12,7 +12,7 @@ function eventListener(video, ev) {
 			event: ev.type,
 			mediaType: 'video',
 			contentId: video.opts.id,
-			progress: video.getProgress(),
+			progress: video.getProgress()
 		},
 		bubbles: true
 	});
@@ -33,6 +33,26 @@ function updatePosterUrl(posterImage, width) {
 	}
 	return url;
 };
+
+function getBrandName(tags){
+	if(!tags){
+		return '';
+	}
+	
+	for(let tag of tags){
+		if(tag.indexOf('brand:') === 0){
+			return tag.replace('brand:', '').trim();
+		}
+	}
+}
+
+function formatDuration(lengthInMs){
+	let lengthInSeconds = Math.round(lengthInMs / 1000);
+	let minutes = Math.round(lengthInSeconds / 60);
+	let seconds = (lengthInSeconds - (minutes * 60)).toString();
+	let paddedSeconds = seconds.length === 2 ? seconds : '0'+seconds;
+	return `${minutes}:${paddedSeconds}`;
+}
 
 // converts data-o-video attributes to an options object
 function getOptionsFromDataAttributes(attributes) {
@@ -62,7 +82,9 @@ const defaultOpts = {
 	optimumwidth: null,
 	placeholder: false,
 	placeholdertitle: false,
-	data: null
+	placeholderdisplay: 'brand',
+	data: null,
+	snapwidth: 400
 };
 
 class Video {
@@ -76,6 +98,19 @@ class Video {
 				this.opts[optionName] = defaultOpts[optionName];
 			}
 		});
+
+		// display different kinds of info on the placeholder
+		this.placeholderInfo = {};
+
+		if(this.opts.placeholderdisplay) {
+			this.opts.placeholderdisplay.split(',').forEach(display => {
+				this.placeholderInfo[display] = true;
+			});
+		}
+
+		if(this.opts.titlelink){
+			this.placeholderInfo.link = this.opts.titlelink;
+		}
 
 		if (typeof this.opts.classes === 'string') {
 			this.opts.classes = this.opts.classes.split(' ');
@@ -163,21 +198,20 @@ class Video {
 		}
 	}
 
+
+
 	addPlaceholder() {
 		this.placeholderEl = document.createElement('div');
 		this.placeholderEl.classList.add('o-video__placeholder');
 		const placeholderImageEl = document.createElement('img');
 		placeholderImageEl.classList.add('o-video__placeholder-image');
+
+		// Add a class to signify that the placeholder being diplayed is "large"
+		if(this.containerEl.offsetWidth > this.opts.snapwidth){
+			this.placeholderEl.classList.add('o-video__placeholder--large');
+		}
 		placeholderImageEl.setAttribute('src', this.posterImage);
 		this.placeholderEl.appendChild(placeholderImageEl);
-
-		let titleEl;
-		if (this.opts.placeholdertitle) {
-			titleEl = document.createElement('div');
-			titleEl.className = 'o-video__title';
-			titleEl.textContent = this.videoData && this.videoData.name;
-			this.placeholderEl.appendChild(titleEl);
-		}
 
 		const playButtonEl = document.createElement('button');
 		playButtonEl.className = 'o-video__play-button';
@@ -190,8 +224,53 @@ class Video {
 		const playIconEl = document.createElement('i');
 		playIconEl.className = 'o-video__play-button-icon';
 		playButtonEl.appendChild(playIconEl);
-
 		this.placeholderEl.appendChild(playButtonEl);
+
+		const infoContainerEl = document.createElement('div');
+		infoContainerEl.className = 'o-video__info';
+		this.placeholderEl.appendChild(infoContainerEl);
+
+		const brand = getBrandName(this.videoData.tags);
+		if(brand && this.placeholderInfo.brand){
+			const brandEl = document.createElement('span');
+			brandEl.className = 'o-video__info__brand';
+			brandEl.textContent = brand;
+			infoContainerEl.appendChild(brandEl);
+		}
+
+		const duration = formatDuration(this.videoData.length);
+		if(duration && this.placeholderInfo.duration){
+			const durationEl = document.createElement('span');
+			durationEl.className = 'o-video__info__duration';
+			durationEl.textContent = duration;
+			infoContainerEl.appendChild(durationEl);
+		}
+
+		let titleEl;
+		let titleContent = this.videoData && this.videoData.name;
+		if (titleContent && (this.opts.placeholdertitle || this.placeholderInfo.title)) {
+			titleEl = document.createElement('div');
+			titleEl.className = 'o-video__title';
+			if(this.placeholderInfo.link){
+				let linkEl = document.createElement('a');
+				linkEl.classList.add('o-video__title-link');
+				linkEl.href = this.placeholderInfo.link;
+				linkEl.textContent = titleContent;
+				titleEl.appendChild(linkEl);
+			}else{
+				titleEl.textContent = titleContent;
+			}
+
+			infoContainerEl.appendChild(titleEl);
+		}
+
+		const description = this.videoData.shortDescription;
+		if(description && this.placeholderInfo.description){
+			const descriptionEl = document.createElement('span');
+			descriptionEl.className = 'o-video__description';
+			descriptionEl.textContent = description;
+			infoContainerEl.appendChild(descriptionEl);
+		}
 
 		this.placeholderEl.addEventListener('click', () => {
 			// Adds video soon so ads can start loading
