@@ -44,13 +44,12 @@ The config options can also be set as data attribute to instantiate the module d
     <div data-o-component="o-video"
         data-o-video-id="4165329773001"
         data-o-video-source="brightcove"
-        data-o-video-opts-optimum-width="710"
-        data-o-video-opts-placeholder-title="true"
+        data-o-video-optimumwidth="710"
+        data-o-video-placeholdertitle="true"
         data-o-video-placeholderdisplay="brand,duration,title,description"
         data-o-video-titlelink="http://video.ft.com/565756">
     </div>
 ```
-**Note**: `optimum-width`, `placeholder`, `placeholder-title` and `classes` are prefixed with `-opts-` when being used as data-attributes
 
 ## Testing
 
