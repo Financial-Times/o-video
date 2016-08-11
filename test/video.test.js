@@ -44,6 +44,7 @@ describe('Video', () => {
 			video.opts.autorender.should.eql(true);
 			video.opts.classes.should.be.an.instanceOf(Array);
 			video.opts.classes.should.contain('o-video__video');
+			video.opts.placeholderdisplay.should.eql('brand');
 			should.equal(video.opts.optimumwidth, null);
 			video.opts.placeholder.should.eql(false);
 			should.equal(video.opts.data, null);
@@ -132,8 +133,9 @@ describe('Video', () => {
 			Video.prototype.addVideo = realAddVideo;
 		});
 
-		it('should be able to create a placeholder', () => {
+		it.only('should be able to create a placeholder', () => {
 			const video = new Video(containerEl, { placeholder: true });
+			video.videoData = { name: 'A hated rally' };
 			video.posterImage = 'mockimage';
 			video.addPlaceholder();
 
