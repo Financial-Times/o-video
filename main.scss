@@ -2,6 +2,7 @@ $_o-video_applied: false !default;
 
 @import "o-icons/main";
 @import "o-colors/main";
+@import "o-typography/main";
 
 @if (not $_o-video_applied) {
 	.o-video {
@@ -35,13 +36,26 @@ $_o-video_applied: false !default;
 		cursor: pointer;
 	}
 
-	.o-video__title {
-		position: absolute;
-		top: 0;
-		left: 0;
-		padding: 8px;
-		background-color: rgba(oColorsGetPaletteColor('grey-tint4'), 0.9);
+
+	.o-video__title,
+	.o-video__title-link {
+		@include oTypographySans(s);
 		color: oColorsGetPaletteColor('white');
+		margin-top: 7px;
+	}
+
+	.o-video__title-link {
+		text-decoration: none;
+	}
+
+	.o-video__title-link:hover {
+		text-decoration: underline;
+	}
+
+	.o-video__description {
+		@include oTypographySans(s);
+		color: oColorsGetPaletteColor('white');
+		margin-top: 2px;
 	}
 
 	.o-video__play-button {
@@ -51,7 +65,8 @@ $_o-video_applied: false !default;
 		top: 0;
 		left: 0;
 		padding: 0;
-		background-color: transparent;
+		background: transparent;
+		background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.6) 30%, rgba(0, 0, 0, 0) 100%);
 		cursor: pointer;
 		border: 0;
 
@@ -73,7 +88,69 @@ $_o-video_applied: false !default;
 			border-radius: 20px;
 		}
 
-		&:hover .o-video__play-button-icon {
+		&:after {
+			content: '';
+			position: absolute;
+			background-color: oColorsGetPaletteColor('claret-1');
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			opacity: 0;
+			transition: opacity 150ms linear;
+		}
+
+	}
+
+	.o-video__info {
+		position: absolute;
+		left: 0px;
+		top: 0px;
+		padding: 0 10px;
+	}
+
+	.o-video__info__brand {
+		@include oTypographySansBold(xs);
+		background-color: oColorsGetPaletteColor('claret-1');
+		color: oColorsGetPaletteColor('white');
+		display: inline-block;
+		padding: 2px 5px;
+		vertical-align: top;
+	}
+
+	.o-video__info__duration {
+		display: inline-block;
+		@include oTypographySansBold(xs);
+		color: oColorsGetPaletteColor('white');
+		vertical-align: top;
+		position: relative;
+		top: 2px;
+		margin-left: 10px;
+	}
+
+	.o-video__placeholder--large {
+		.o-video__info__duration {
+			@include oTypographySansBold(s);
+			top: 4px;
+		}
+
+		.o-video__info__brand {
+			@include oTypographySansBold(s);
+			padding: 4px 10px;
+		}
+
+		.o-video__title,
+		.o-video__title-link {
+			@include oTypographySans(m);
+		}
+	}
+
+	.o-video:hover {
+		.o-video__play-button:after {
+			opacity: 0.5;
+		}
+
+		.o-video__play-button-icon {
 			opacity: 0.5;
 		}
 	}
