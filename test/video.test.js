@@ -45,6 +45,7 @@ describe('Video', () => {
 			video.opts.advertising.should.eql(false);
 			video.opts.classes.should.be.an.instanceOf(Array);
 			video.opts.classes.should.contain('o-video__video');
+			video.opts.placeholderdisplay.should.eql('brand');
 			should.equal(video.opts.optimumwidth, null);
 			video.opts.placeholder.should.eql(false);
 			should.equal(video.opts.data, null);
@@ -144,6 +145,7 @@ describe('Video', () => {
 				placeholder: true
 			});
 
+			video.videoData = { name: 'A hated rally' };
 			video.posterImage = 'mockimage';
 			video.addPlaceholder();
 
