@@ -35,15 +35,20 @@ Where `opts` is an optional object with properties
  * `placeholder` [`Boolean`] Show just the poster image, load (and play) video on click
  * `placeholderTitle` [`Boolean`] Show just the title as an overlay on the placeholder (becomes `placeholder-title` if used as a data attribute)
  * `classes` [`Array`] Classes to add to the video (and placeholder) element
+ * `placeholderdisplay` [`String`] Comma seperated list of different elements to include on the placeholder. Current options are `brand`,`duration`,`title`,`description`.  Default is `brand`.
+ * `titlelink` [`String`] Will make the title on the placeholder a clickable link.
 
 The config options can also be set as data attribute to instantiate the module declaratively:
 
 ```html
     <div data-o-component="o-video"
-            data-o-video-id="4165329773001"
-            data-o-video-source="brightcove"
-            data-o-video-opts-optimum-width="710"
-            data-o-video-opts-placeholder-title="true"></div>
+        data-o-video-id="4165329773001"
+        data-o-video-source="brightcove"
+        data-o-video-opts-optimum-width="710"
+        data-o-video-opts-placeholder-title="true"
+        data-o-video-placeholderdisplay="brand,duration,title,description"
+        data-o-video-titlelink="http://video.ft.com/565756">
+    </div>
 ```
 **Note**: `optimum-width`, `placeholder`, `placeholder-title` and `classes` are prefixed with `-opts-` when being used as data-attributes
 
