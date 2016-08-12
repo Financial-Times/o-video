@@ -31,16 +31,18 @@ function updatePosterUrl(posterImage, width) {
 		url += `&fit=scale-down&width=${width}`;
 	}
 	return url;
-};
+}
 
 function getBrandName(tags){
 	if(!tags){
 		return '';
 	}
 
+	let regex = /brand:/i;
+
 	for(let tag of tags){
-		if(tag.indexOf('brand:') === 0){
-			return tag.replace('brand:', '').trim();
+		if(regex.test(tag)){
+			return tag.replace(regex, '').trim();
 		}
 	}
 }
