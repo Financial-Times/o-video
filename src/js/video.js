@@ -1,5 +1,5 @@
 /* global fetch */
-import crossDomainFetch from 'o-fetch-jsonp';
+import { crossDomainFetch } from 'o-fetch-jsonp';
 import getRendition from './helpers/get-rendition';
 import VideoAds from './ads';
 
