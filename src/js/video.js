@@ -52,7 +52,11 @@ function getBrandName(tags){
 function formatDuration(lengthInMs){
 	let lengthInSeconds = Math.round(lengthInMs / 1000);
 	let minutes = Math.round(lengthInSeconds / 60);
-	let seconds = (lengthInSeconds - (minutes * 60)).toString();
+	let seconds = (lengthInSeconds - (minutes * 60));
+	if(seconds < 0){
+		seconds = 0;
+	}
+	seconds = seconds.toString();
 	let paddedSeconds = seconds.length === 2 ? seconds : '0'+seconds;
 	return `${minutes}:${paddedSeconds}`;
 }
