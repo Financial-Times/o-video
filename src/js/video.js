@@ -89,6 +89,7 @@ const defaultOpts = {
 	optimumwidth: null,
 	placeholder: false,
 	placeholdertitle: false,
+	titlelink: false,
 	placeholderdisplay: 'brand',
 	data: null,
 	snapwidth: 400
