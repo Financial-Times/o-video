@@ -32,6 +32,7 @@ $_o-video_applied: false !default;
 
 	.o-video__placeholder,
 	.o-video__overlay {
+		-webkit-font-smoothing: antialiased;
 		z-index: 1;
 		cursor: pointer;
 	}
@@ -39,7 +40,8 @@ $_o-video_applied: false !default;
 
 	.o-video__title,
 	.o-video__title-link {
-		@include oTypographySans(s);
+		@include oTypographySansBold(s);
+		-webkit-font-smoothing: antialiased;
 		color: oColorsGetPaletteColor('white');
 		margin-top: 7px;
 	}
@@ -53,7 +55,8 @@ $_o-video_applied: false !default;
 	}
 
 	.o-video__description {
-		@include oTypographySans(s);
+		@include oTypographySansBold(s);
+		-webkit-font-smoothing: antialiased;
 		color: oColorsGetPaletteColor('white');
 		margin-top: 2px;
 	}
@@ -88,7 +91,7 @@ $_o-video_applied: false !default;
 			border-radius: 20px;
 		}
 
-		&:after {
+		&:before {
 			content: '';
 			position: absolute;
 			background-color: oColorsGetPaletteColor('claret-1');
@@ -99,7 +102,10 @@ $_o-video_applied: false !default;
 			opacity: 0;
 			transition: opacity 150ms linear;
 		}
+	}
 
+	.o-video__play-button:hover:before {
+		opacity: 0.5;
 	}
 
 	.o-video__info {
@@ -110,11 +116,11 @@ $_o-video_applied: false !default;
 	}
 
 	.o-video__info__brand {
-		@include oTypographySansBold(xs);
+		@include oTypographySansBold(s);
 		background-color: oColorsGetPaletteColor('claret-1');
 		color: oColorsGetPaletteColor('white');
 		display: inline-block;
-		padding: 2px 5px;
+		padding: 2px 10px;
 		vertical-align: top;
 	}
 
@@ -124,34 +130,28 @@ $_o-video_applied: false !default;
 		color: oColorsGetPaletteColor('white');
 		vertical-align: top;
 		position: relative;
-		top: 2px;
+		top: 5px;
 		margin-left: 10px;
 	}
 
 	.o-video__placeholder--large {
 		.o-video__info__duration {
 			@include oTypographySansBold(s);
-			top: 4px;
+			top: 6px;
 		}
 
 		.o-video__info__brand {
-			@include oTypographySansBold(s);
+			@include oTypographySansBold(m);
 			padding: 4px 10px;
 		}
 
 		.o-video__title,
 		.o-video__title-link {
-			@include oTypographySans(m);
-		}
-	}
-
-	.o-video:hover {
-		.o-video__play-button:after {
-			opacity: 0.5;
+			@include oTypographySansBold(l);
 		}
 
-		.o-video__play-button-icon {
-			opacity: 0.5;
+		.o-video__description {
+			@include oTypographySansBold(m);
 		}
 	}
 
