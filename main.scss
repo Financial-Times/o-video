@@ -43,7 +43,6 @@ $_o-video_applied: false !default;
 		@include oTypographySansBold(s);
 		-webkit-font-smoothing: antialiased;
 		color: oColorsGetPaletteColor('white');
-		margin-top: 7px;
 	}
 
 	.o-video__title-link {
@@ -79,16 +78,18 @@ $_o-video_applied: false !default;
 		}
 
 		.o-video__play-button-icon {
-			@include oIconsGetIcon('play', oColorsGetPaletteColor('white'), 40);
+			$size : 30;
+			$halfsize: #{$size/2}px;
+			@include oIconsGetIcon('play', oColorsGetPaletteColor('white'), $size);
 			@include oIconsBaseStyles;
 			position: absolute;
-			top: 50%;
+			top: 60%;
 			left: 50%;
-			margin-top: -20px;
-			margin-left: -20px;
+			margin-top: -$halfsize;
+			margin-left: -$halfsize;
 			opacity: 1;
 			transition: opacity 0.1s;
-			border-radius: 20px;
+			border-radius: $halfsize;
 		}
 
 		&:before {
@@ -116,7 +117,7 @@ $_o-video_applied: false !default;
 	}
 
 	.o-video__info__brand {
-		@include oTypographySansBold(s);
+		@include oTypographySansBold(xs);
 		background-color: oColorsGetPaletteColor('claret-1');
 		color: oColorsGetPaletteColor('white');
 		display: inline-block;
@@ -130,11 +131,50 @@ $_o-video_applied: false !default;
 		color: oColorsGetPaletteColor('white');
 		vertical-align: top;
 		position: relative;
-		top: 5px;
+		top: 2px;
 		margin-left: 10px;
 	}
 
+	.o-video__placeholder--small {
+		.o-video__play-button-icon {
+			$size : 40;
+			$halfsize: #{$size/2}px;
+			@include oIconsGetIcon('play', oColorsGetPaletteColor('white'), $size);
+			top: 60%;
+			left: 50%;
+			margin-top: -$halfsize;
+			margin-left: -$halfsize;
+			border-radius: $halfsize;
+		}
+
+		.o-video__info__brand {
+			@include oTypographySansBold(s);
+		}
+
+		.o-video__title {
+			margin-top: 7px;
+			@include oTypographySansBoldSize(m);
+		}
+
+		.o-video__info__duration {
+			top: 5px;
+		}
+	}
+
+
 	.o-video__placeholder--large {
+
+		.o-video__play-button-icon {
+			$size : 60;
+			$halfsize: #{$size/2}px;
+			@include oIconsGetIcon('play', oColorsGetPaletteColor('white'), $size);
+			top: 50%;
+			left: 50%;
+			margin-top: -$halfsize;
+			margin-left: -$halfsize;
+			border-radius: $halfsize;
+		}
+
 		.o-video__info__duration {
 			@include oTypographySansBold(s);
 			top: 6px;

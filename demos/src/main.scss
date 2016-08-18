@@ -1,6 +1,6 @@
 @import "../../main";
 
-.video-container {
+.video-container--large {
 	width: 512px;
 	min-height: 228px;
 	position: relative;
@@ -11,4 +11,12 @@
 	width: 300px;
 	min-height: 100px;
 	position: relative;
+	margin-bottom: 20px;
+}
+
+.video-container {
+	width: 200px;
+	min-height: 113px;
+	position: relative;
+	margin-bottom: 20px;
 }
