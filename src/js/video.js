@@ -90,7 +90,7 @@ const defaultOpts = {
 	titlelink: false,
 	placeholderdisplay: 'brand',
 	data: null,
-	snapwidth: 400
+	breakpoints: {small: 210, large: 400}
 };
 
 class Video {
@@ -227,10 +227,13 @@ class Video {
 			this.placeholderEl.appendChild(this.placeholderTitleEl);
 		}
 
-		// Add a class to signify that the placeholder being diplayed is "large"
-		if(this.containerEl.offsetWidth > this.opts.snapwidth){
-			this.placeholderEl.classList.add('o-video__placeholder--large');
-		}
+		// breakpoints - note that these is not "real" responsive stuff as it's based on the size
+		// of the placeholder not the screen
+		Object.keys(this.opts.breakpoints).forEach(key => {
+			if(this.containerEl.offsetWidth > this.opts.breakpoints[key]){
+				this.placeholderEl.classList.add(`o-video__placeholder--${key}`);
+			}
+		});
 
 		const playButtonEl = document.createElement('button');
 		playButtonEl.className = 'o-video__play-button';

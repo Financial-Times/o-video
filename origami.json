@@ -22,6 +22,7 @@
 		{
 			"name": "placeholder",
 			"description": "Placeholder",
+			"data": "demos/src/data.js",
 			"expanded": true,
 			"template": "demos/src/placeholder.mustache"
 		},
