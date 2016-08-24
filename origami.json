@@ -10,14 +10,15 @@
 	},
 	"demosDefaults": {
 		"sass": "demos/src/main.scss",
-		"js": "demos/src/demo.js",
-		"template": "demos/src/video.mustache"
+		"js": "demos/src/demo.js"
 	},
 	"demos": [
 		{
 			"name": "native",
 			"description": "Native",
-			"expanded": true
+			"expanded": true,
+			"template": "demos/src/video.mustache",
+			"js": "demos/src/video.js"
 		},
 		{
 			"name": "placeholder",
