@@ -121,7 +121,11 @@ class Video {
 		if (typeof this.opts.classes === 'string') {
 			this.opts.classes = this.opts.classes.split(' ');
 		}
-		this.opts.classes.push('o-video__video');
+
+		if(this.opts.classes.indexOf('o-video__video') === -1){
+			this.opts.classes.push('o-video__video');
+		}
+
 
 		this.targeting = {
 			site: '/5887/ft.com',

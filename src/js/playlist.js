@@ -1,6 +1,12 @@
+const defaultOptions = {
+	autoplay: true,
+	player: null,
+	queue: []
+};
+
 class Playlist {
 	constructor (opts) {
-		this.opts = opts;
+		this.opts = Object.assign({}, defaultOptions, opts);
 
 		// find the currently playing video, always deal with strings
 		const currentId = opts.player.videoData ? opts.player.videoData.id : opts.player.opts.id;
@@ -10,7 +16,7 @@ class Playlist {
 
 		this.cache = {};
 
-		if (this.currentIndex === -1) {
+		if (this.opts.autoplay && this.currentIndex === -1) {
 			this.next();
 		}
 	}
