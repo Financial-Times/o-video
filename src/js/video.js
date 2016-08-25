@@ -92,6 +92,7 @@ const defaultOpts = {
 	titlelink: false,
 	placeholderdisplay: 'brand',
 	data: null,
+	playinline: true,
 	breakpoints: {small: 210, large: 400}
 };
 
