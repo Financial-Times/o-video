@@ -53,7 +53,12 @@ class Playlist {
 		};
 
 		return this.opts.player.update(nextVideoOpts).then(() => {
-			this.opts.player.videoEl && this.opts.player.videoEl.play();
+			if(this.opts.player.opts.advertising){
+				this.opts.player.videoAds.playAdEventHandler();
+			}else{
+				this.opts.player.videoEl && this.opts.player.videoEl.play();
+			}
+
 		});
 	}
 }
