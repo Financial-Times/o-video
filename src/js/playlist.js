@@ -17,8 +17,13 @@ class Playlist {
 		this.cache = {};
 
 		if (this.opts.autoplay && this.currentIndex === -1) {
-			this.next();
+			this.start();
 		}
+	}
+
+
+	start(){
+		this.next();
 	}
 
 	next () {
@@ -30,6 +35,7 @@ class Playlist {
 	}
 
 	goto (index) {
+		debugger;
 		if (index < 0) {
 			this.currentIndex = this.opts.queue.length - 1;
 		} else if (index >= this.opts.queue.length) {
@@ -52,6 +58,7 @@ class Playlist {
 			data: this.cache[nextVideoId]
 		};
 
+
 		return this.opts.player.update(nextVideoOpts).then(() => {
 			if(this.opts.player.opts.advertising){
 				this.opts.player.videoAds.playAdEventHandler();
@@ -61,6 +68,8 @@ class Playlist {
 
 		});
 	}
+
+
 }
 
 export default Playlist;
