@@ -7,11 +7,9 @@ import Playlist from './playlist';
 function eventListener(video, ev) {
 	const event = new CustomEvent('oTracking.event', {
 		detail: {
-			action: 'media',
+			action: ev.type,
 			advertising: video.opts.advertising,
 			category: 'video',
-			event: ev.type,
-			mediaType: 'video',
 			contentId: video.opts.id,
 			progress: video.getProgress()
 		},
@@ -164,7 +162,7 @@ class Video {
 		return dataPromise.then(data => {
 			this.videoData = data;
 			this.posterImage = updatePosterUrl(data.videoStillURL, this.opts.optimumwidth);
-			this.rendition = getRendition(data.renditions);
+			this.rendition = getRendition(data.renditions, this.opts);
 		});
 	}
 
