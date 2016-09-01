@@ -1,4 +1,4 @@
-/* global describe, context, it, beforeEach, afterEach, before, after, should */
+/* global describe, context, it, beforeEach, afterEach, should */
 const Video = require('./../src/js/video');
 const brightcoveResponse1 = require('./fixtures/brightcove-1.json');
 const brightcoveResponse2 = require('./fixtures/brightcove-2.json');
@@ -338,7 +338,7 @@ describe('Video', () => {
 
 		let fetchStub;
 
-		before(() => {
+		beforeEach(() => {
 			fetchStub = sinon.stub(window, 'fetch');
 			const res = new window.Response(JSON.stringify(brightcoveResponse1), {
 				status: 200,
@@ -349,7 +349,7 @@ describe('Video', () => {
 			fetchStub.returns(Promise.resolve(res));
 		});
 
-		after(() => {
+		afterEach(() => {
 			fetchStub.restore();
 		});
 
@@ -361,6 +361,14 @@ describe('Video', () => {
 					video.posterImage.should.contain(
 						'image.webservices.ft.com/v1/images/raw/'
 					);
+				});
+		});
+		it('should request an optimised rendition if optimumvideowidth defined', () => {
+			containerEl.setAttribute('data-o-video-optimumvideowidth', '300');
+			const video = new Video(containerEl);
+			return video.getData()
+				.then(() => {
+					video.rendition.frameWidth.should.equal(400);
 				});
 		});
 
