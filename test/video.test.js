@@ -251,15 +251,13 @@ describe('Video', () => {
 				});
 			});
 
-			it('updates the placeholder image and title', () => {
+			it('updates the placeholder image', () => {
 				const newOpts = { id: brightcoveResponse2.id };
 
 				video.placeholderImageEl.src.should.include('AuthersNote-stock-market.jpg');
-				video.placeholderTitleEl.textContent.should.equal(brightcoveResponse1.name);
 
 				return video.update(newOpts).then(() => {
 					video.placeholderImageEl.src.should.include('World-Norbert-Hofer.jpg');
-					video.placeholderTitleEl.textContent.should.equal(brightcoveResponse2.name);
 				});
 			});
 		});
