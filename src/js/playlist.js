@@ -35,7 +35,6 @@ class Playlist {
 	}
 
 	goto (index) {
-		debugger;
 		if (index < 0) {
 			this.currentIndex = this.opts.queue.length - 1;
 		} else if (index >= this.opts.queue.length) {
