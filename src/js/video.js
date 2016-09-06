@@ -226,12 +226,6 @@ class Video {
 
 		this.placeholderEl.appendChild(this.placeholderImageEl);
 
-		if (this.opts.placeholdertitle) {
-			this.placeholderTitleEl = document.createElement('div');
-			this.placeholderTitleEl.classList.add('o-video__title');
-			this.placeholderEl.appendChild(this.placeholderTitleEl);
-		}
-
 		// breakpoints - note that these is not "real" responsive stuff as it's based on the size
 		// of the placeholder not the screen
 		Object.keys(this.opts.breakpoints).forEach(key => {
