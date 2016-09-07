@@ -35,7 +35,6 @@ class Playlist {
 	}
 
 	goto (index) {
-		debugger;
 		if (index < 0) {
 			this.currentIndex = this.opts.queue.length - 1;
 		} else if (index >= this.opts.queue.length) {
@@ -60,12 +59,11 @@ class Playlist {
 
 
 		return this.opts.player.update(nextVideoOpts).then(() => {
-			if(this.opts.player.opts.advertising){
+			if (this.opts.player.opts.advertising) {
 				this.opts.player.videoAds.playAdEventHandler();
-			}else{
+			} else {
 				this.opts.player.videoEl && this.opts.player.videoEl.play();
 			}
-
 		});
 	}
 
