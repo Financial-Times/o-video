@@ -118,9 +118,9 @@ describe('Video', () => {
 			addEventListenerSpy.calledWith('ended', video.clearCurrentlyPlaying);
 			addEventListenerSpy.calledWith('play');
 			addEventListenerSpy.calledWith('playing');
-			addEventListenerSpy.calledWith('progress');
 			addEventListenerSpy.calledWith('pause');
 			addEventListenerSpy.calledWith('ended');
+			addEventListenerSpy.calledWith('progress');
 
 			Element.prototype.addEventListener = realAddEventListener;
 		});
