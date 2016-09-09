@@ -5,6 +5,12 @@ import VideoAds from './ads';
 import Playlist from './playlist';
 
 function eventListener(video, ev) {
+
+	// Capture a max of 4 progress event per video
+	if (ev.type === 'progress' && video.getProgress() % 25 !== 0) {
+		return;
+	}
+
 	const event = new CustomEvent('oTracking.event', {
 		detail: {
 			action: ev.type,
@@ -200,7 +206,7 @@ class Video {
 
 		this.containerEl.appendChild(this.videoEl);
 
-		addEvents(this, ['play', 'playing', 'pause', 'ended']);
+		addEvents(this, ['play', 'playing', 'pause', 'ended', 'progress']);
 		this.videoEl.addEventListener('playing', this.pauseOtherVideos);
 		this.videoEl.addEventListener('suspend', this.clearCurrentlyPlaying);
 		this.videoEl.addEventListener('ended', this.clearCurrentlyPlaying);
