@@ -33,8 +33,9 @@ Where `opts` is an optional object with properties
  * `optimumvideowidth` [`Number`] The optimum width of the video itself, used when there are multiple video renditions available to
  decide which to display (the smallest one that's at least as large as this width, if it exists)
  * `placeholder` [`Boolean`] Show just the poster image, load (and play) video on click
- * `placeholderInfo` [`Array`] A list of extra information to display on the placeholder (Available: title, description, brand, duration)
+ * `placeholderInfo` [`Array`] A list of extra information to display on the placeholder (Available: title, description, brand)
  * `playsinline` [`Boolean`] Whether to play the [video inline](https://webkit.org/blog/6784/new-video-policies-for-ios/) on iOS smallscreen (defaults to fullscreen)
+ * `placeholderInfo` [`Array`] A list of extra information to display on the placeholder (Available: title, description, brand)
  * `classes` [`Array`] Classes to add to the video (and placeholder) element
 
 The config options can also be set as data attribute to instantiate the module declaratively:
@@ -81,7 +82,7 @@ Migrating from 1.0 to 2.0
 
 ### Configuration
 
-The `placeholdertitle` property no longer exists, it has been replaced by `placeholder-info` which accepts an array containing one or more of `'title'`, `'description'`, `'brand'`, `'duration'`.
+The `placeholdertitle` property no longer exists, it has been replaced by `placeholder-info` which accepts an array containing one or more of `'title'`, `'description'`, `'brand'`.
 
 ```diff
 <div class="video-container">

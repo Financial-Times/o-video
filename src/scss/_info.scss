@@ -1,14 +1,12 @@
 @mixin oVideoInfoSmall {
 	.o-video__info-brand,
-	.o-video__info-duration,
 	.o-video__info-description {
 		display: none;
 	}
 }
 
 @mixin oVideoInfoMedium {
-	.o-video__info-brand,
-	.o-video__info-duration {
+	.o-video__info-brand {
 		display: inline-block;
 	}
 
@@ -52,8 +50,7 @@
 		color: oColorsGetPaletteColor('white');
 	}
 
-	.o-video__info-brand,
-	.o-video__info-duration {
+	.o-video__info-brand {
 		display: inline-block;
 		padding: 3px 10px;
 	}
