@@ -7,20 +7,20 @@ Creates a video player and attaches analytics. Also supports pre roll ads.
 Create an element of the format e.g.
 
 ```html
-    <div data-o-component="o-video o-video--large"></div>
+		<div data-o-component="o-video o-video--large"></div>
 ```
 
 In JS
 
 ```js
-    const OVideo = require('o-video');
-    const opts = {
-        id: 4165329773001,
-        optimumwidth: 710,
-        placeholder: true,
-        classes: ['video']
-    };
-    const video = new OVideo(document.body, opts);
+		const OVideo = require('o-video');
+		const opts = {
+				id: 4165329773001,
+				optimumwidth: 710,
+				placeholder: true,
+				classes: ['video']
+		};
+		const video = new OVideo(document.body, opts);
 ```
 
 ### Config
@@ -41,9 +41,9 @@ Where `opts` is an optional object with properties
 The config options can also be set as data attribute to instantiate the module declaratively:
 
 ```html
-    <div data-o-component="o-video o-video--large"
-            data-o-video-id="4165329773001"
-            data-o-video-optimumwidth="710"></div>
+	<div data-o-component="o-video o-video--large"
+		data-o-video-id="4165329773001"
+		data-o-video-optimumwidth="710"></div>
 ```
 
 ### With a playlist
@@ -54,9 +54,9 @@ Playlists may take a queue of videos and play them one after another.
 const Video = require('o-video');
 
 const queue = [
-    '4165329773001',
-    '4907997821001',
-    '4165329773001'
+	'4165329773001',
+	'4907997821001',
+	'4165329773001'
 ];
 
 const player = new Video(document.body, { autorender: false });
@@ -70,7 +70,7 @@ The queue is an `array` containing Brightcove video ID strings.
 
 ## Testing
 
-    $ npm test
+	$ npm test
 
 (Requires Firefox)
 
@@ -86,15 +86,15 @@ The `placeholdertitle` property no longer exists, it has been replaced by `place
 
 ```diff
 <div class="video-container">
-    <div class="o-video" data-o-component="o-video"
-        data-o-video-source="Brightcove"
-        data-o-component="o-video"
-        data-o-video-id="4165329773001"
-        data-o-video-advertising="true"
-        data-o-video-placeholder="true"
--        data-o-video-placeholdertitle="true"
-+        data-o-video-placeholder-info="['title']"
-    ></div>
+	<div class="o-video" data-o-component="o-video"
+		data-o-video-source="Brightcove"
+		data-o-component="o-video"
+		data-o-video-id="4165329773001"
+		data-o-video-advertising="true"
+		data-o-video-placeholder="true"
+-		data-o-video-placeholdertitle="true"
++		data-o-video-placeholder-info="['title']"
+	></div>
 </div>
 ```
 
@@ -103,16 +103,16 @@ The `optimumwidth` property is no longer used for the video width, it is now onl
 
 ```diff
 <div class="video-container">
-    <div class="o-video" data-o-component="o-video"
-        data-o-video-source="Brightcove"
-        data-o-component="o-video"
-        data-o-video-id="4165329773001"
-        data-o-video-advertising="true"
-        data-o-video-placeholder="true"
-        data-o-video-placeholder-info="['title']"
-        data-o-video-optimumwidth="400"
-+        data-o-video-optimumvideowidth="400"
-    ></div>
+	<div class="o-video" data-o-component="o-video"
+		data-o-video-source="Brightcove"
+		data-o-component="o-video"
+		data-o-video-id="4165329773001"
+		data-o-video-advertising="true"
+		data-o-video-placeholder="true"
+		data-o-video-placeholder-info="['title']"
+		data-o-video-optimumwidth="400"
++		data-o-video-optimumvideowidth="400"
+	></div>
 </div>
 ```
 
