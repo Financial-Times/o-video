@@ -47,16 +47,13 @@
 	}
 
 	.o-video__play-button-icon {
-		@include oIconsGetIcon('play', oColorsGetPaletteColor('white'), 60, $iconset-version: 1);
+		@include oIconsGetIcon('play', oColorsGetPaletteColor('white'), 40, $iconset-version: 1);
 		@include oIconsBaseStyles;
 		position: absolute;
-		top: 0;
-		right: 0;
 		bottom: 0;
 		left: 0;
 		margin: auto;
-		border-radius: 100%;
-		background-color: rgba(oColorsGetPaletteColor('black'), 0.5);
+		background-color: oColorsGetPaletteColor('black');
 	}
 
 }
