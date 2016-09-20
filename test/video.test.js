@@ -91,6 +91,8 @@ describe('Video', () => {
 			video.videoEl.poster.should.include('mockimage');
 			video.videoEl.src.should.equal('http://url.mock/');
 			video.videoEl.controls.should.equal(true);
+			video.videoEl.hasAttribute('playsinline').should.be.false;
+
 		});
 
 		it('should add supplied classes to element', () => {
@@ -101,6 +103,17 @@ describe('Video', () => {
 
 			video.addVideo();
 			video.videoEl.className.should.equal('class-one class-two o-video__video');
+		});
+
+		it('should support the playsinline option', () => {
+			const video = new Video(containerEl, {
+				playsinline: true,
+				autorender: false
+			});
+
+			video.addVideo();
+			video.videoEl.hasAttribute('playsinline').should.be.true;
+			video.videoEl.hasAttribute('webkit-playsinline').should.be.true;
 		});
 
 		it('should set event handlers', () => {
