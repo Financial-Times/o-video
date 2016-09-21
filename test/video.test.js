@@ -46,6 +46,7 @@ describe('Video', () => {
 			video.opts.classes.should.contain('o-video__video');
 			should.equal(video.opts.optimumwidth, null);
 			video.opts.placeholder.should.eql(false);
+			video.opts.playsinline.should.eql(false);
 			should.equal(video.opts.data, null);
 		});
 
@@ -105,7 +106,7 @@ describe('Video', () => {
 			video.videoEl.className.should.equal('class-one class-two o-video__video');
 		});
 
-		it('should support the playsinline option', () => {
+		it('should support the playsinline option set to true', () => {
 			const video = new Video(containerEl, {
 				playsinline: true,
 				autorender: false
@@ -114,6 +115,17 @@ describe('Video', () => {
 			video.addVideo();
 			video.videoEl.hasAttribute('playsinline').should.be.true;
 			video.videoEl.hasAttribute('webkit-playsinline').should.be.true;
+		});
+
+		it('should support the playsinline option set to false', () => {
+			const video = new Video(containerEl, {
+				playsinline: false,
+				autorender: false
+			});
+
+			video.addVideo();
+			video.videoEl.hasAttribute('playsinline').should.be.false;
+			video.videoEl.hasAttribute('webkit-playsinline').should.be.false;
 		});
 
 		it('should set event handlers', () => {
