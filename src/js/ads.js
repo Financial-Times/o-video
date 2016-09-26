@@ -155,6 +155,12 @@ class VideoAds {
 			return;
 		}
 
+		// We want to display an ad loading notice for a time on screen, we don't want it to flicker
+		// and leave the user wondering if they missed something/think we're testing subliminal ads!
+		if (!this.adNoticeShown) {
+			return;
+		}
+
 		// If ads have failed to load, which resets the advertising support flag, play the video
 		// instead; otherwise, wait until the ads have loaded.
 		if (!this.video.opts.advertising) {
@@ -179,7 +185,24 @@ class VideoAds {
 		// Sets the styling now so the ad occupies the space of the video
 		this.adContainerEl.classList.add('o-video__ad');
 
+		// "Call this method as a direct result of a user action before starting the ad playback..."
+		// <https://developers.google.com/interactive-media-ads/docs/sdks/html5/v3/apis#ima.AdDisplayContainer.initialize>
 		this.adDisplayContainer.initialize();
+
+		// We want to display a notice telling the user an ad is loading - otherwise it can look
+		// like we're not responding to their click.
+		const adNoticeEl = document.createElement('span');
+		adNoticeEl.className = 'o-video__ad-notice';
+		adNoticeEl.textContent = 'Your video will start after a message from our sponsors';
+		this.adContainerEl.appendChild(adNoticeEl);
+
+		this.adNoticeShown = false;
+
+		setTimeout(() => {
+			this.adNoticeShown = true;
+			adNoticeEl.parentNode.removeChild(adNoticeEl);
+			this.startAds();
+		}, 1000 * 3);
 
 		const loadedmetadataHandler = () => {
 			this.videoLoaded = true;
