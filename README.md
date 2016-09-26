@@ -93,8 +93,8 @@ The `placeholdertitle` property no longer exists, it has been replaced by `place
 		data-o-video-id="4165329773001"
 		data-o-video-advertising="true"
 		data-o-video-placeholder="true"
-- 	data-o-video-placeholdertitle="true"
-+ 	data-o-video-placeholder-info="['title']"
+- 		data-o-video-placeholdertitle="true"
++ 		data-o-video-placeholder-info="['title']"
 	></div>
 </div>
 ```
@@ -112,7 +112,7 @@ The `optimumwidth` property is no longer used for the video width, it is now onl
 		data-o-video-placeholder="true"
 		data-o-video-placeholder-info="['title']"
 		data-o-video-optimumwidth="400"
-+ 	data-o-video-optimumvideowidth="400"
++ 		data-o-video-optimumvideowidth="400"
 	></div>
 </div>
 ```
