@@ -195,6 +195,8 @@ class VideoAds {
 		// We want to display a loading state - otherwise it can look
 		// like we're not responding to their action when we're actually fetching an ad
 		const loadingStateEl = document.createElement('span');
+		loadingStateEl.setAttribute('role', 'progressbar');
+		loadingStateEl.setAttribute('aria-valuetext', 'Loading');
 		loadingStateEl.className = 'o-video__loading-state';
 		this.adContainerEl.appendChild(loadingStateEl);
 

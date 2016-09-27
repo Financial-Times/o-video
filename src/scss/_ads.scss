@@ -1,14 +1,5 @@
 @if $o-video-is-silent == false {
 
-	@keyframes o-video-spinner {
-		0% {
-			transform: rotate(0deg);
-		}
-		100% {
-			transform: rotate(360deg);
-		}
-	}
-
 	.o-video__overlay,
 	.o-video__ad {
 		position: absolute;
@@ -45,14 +36,12 @@
 		vertical-align: middle;
 
 		&:after {
+			@include oLoading();
+			@include oLoadingSize('small');
+			@include oLoadingColor('light');
+
 			content: '';
 			display: inline-block;
-			width: 30px;
-			height: 30px;
-			border-radius: 50%;
-			border: 4px solid rgba(white, 0.25);
-			border-top-color: white;
-			animation: o-video-spinner 1s infinite linear;
 		}
 	}
 
