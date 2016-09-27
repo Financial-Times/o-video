@@ -11,8 +11,11 @@ function createVideoOverlayElement() {
 class VideoAds {
 	constructor(video) {
 		this.video = video;
+
+		// only when these three conditions are met will the video play
 		this.adsLoaded = false;
-		this.videoLoad = false;
+		this.videoLoaded = false;
+		this.loadingStateDisplayed = false;
 	}
 
 	loadAdsLibrary() {
@@ -157,14 +160,14 @@ class VideoAds {
 
 		// We want to display an ad loading notice for a time on screen, we don't want it to flicker
 		// and leave the user wondering if they missed something/think we're testing subliminal ads!
-		if (!this.adNoticeShown) {
+		if (!this.loadingStateDisplayed) {
 			return;
 		}
 
 		// If ads have failed to load, which resets the advertising support flag, play the video
 		// instead; otherwise, wait until the ads have loaded.
 		if (!this.video.opts.advertising) {
-			this.video.videoEl.play();
+			return this.video.videoEl.play();
 		} else if (!this.adsLoaded) {
 			return;
 		}
@@ -189,20 +192,18 @@ class VideoAds {
 		// <https://developers.google.com/interactive-media-ads/docs/sdks/html5/v3/apis#ima.AdDisplayContainer.initialize>
 		this.adDisplayContainer.initialize();
 
-		// We want to display a notice telling the user an ad is loading - otherwise it can look
-		// like we're not responding to their click.
-		const adNoticeEl = document.createElement('span');
-		adNoticeEl.className = 'o-video__ad-notice';
-		adNoticeEl.textContent = 'Your video will start after a message from our sponsors';
-		this.adContainerEl.appendChild(adNoticeEl);
+		// We want to display a loading state - otherwise it can look
+		// like we're not responding to their action when we're actually fetching an ad
+		const loadingStateEl = document.createElement('span');
+		loadingStateEl.className = 'o-video__loading-state';
+		this.adContainerEl.appendChild(loadingStateEl);
 
-		this.adNoticeShown = false;
-
+		// display the loading state for a minimum of 2 seconds to avoid flickering
 		setTimeout(() => {
-			this.adNoticeShown = true;
-			adNoticeEl.parentNode.removeChild(adNoticeEl);
+			this.loadingStateDisplayed = true;
+			this.adContainerEl.removeChild(loadingStateEl);
 			this.startAds();
-		}, 1000 * 3);
+		}, 1000 * 2);
 
 		const loadedmetadataHandler = () => {
 			this.videoLoaded = true;
