@@ -21,7 +21,6 @@
 	// the advert is present.  Override the advert div and frame sizes to full size to "fix".
 	.o-video__ad {
 		display: table;
-		background: black;
 
 		> div,
 		> div > iframe {
@@ -32,8 +31,10 @@
 
 	.o-video__loading-state {
 		display: table-cell;
+		width: 100%;
 		text-align: center;
 		vertical-align: middle;
+		background: oColorsGetPaletteColor('black');
 
 		&:after {
 			@include oLoading();
