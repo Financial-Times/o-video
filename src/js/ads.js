@@ -167,10 +167,14 @@ class VideoAds {
 		// If ads have failed to load, which resets the advertising support flag, play the video
 		// instead; otherwise, wait until the ads have loaded.
 		if (!this.video.opts.advertising) {
-			return this.video.videoEl.play();
+			this.video.videoEl.play();
 		} else if (!this.adsLoaded) {
 			return;
 		}
+
+		// Remove the preloading spinner
+		this.loadingStateEl.parentNode.removeChild(this.loadingStateEl);
+		this.loadingStateEl = null;
 
 		try {
 			// Initialize the ads manager. Ad rules playlist will start at this time.
@@ -194,16 +198,15 @@ class VideoAds {
 
 		// We want to display a loading state - otherwise it can look
 		// like we're not responding to their action when we're actually fetching an ad
-		const loadingStateEl = document.createElement('span');
-		loadingStateEl.setAttribute('role', 'progressbar');
-		loadingStateEl.setAttribute('aria-valuetext', 'Loading');
-		loadingStateEl.className = 'o-video__loading-state';
-		this.adContainerEl.appendChild(loadingStateEl);
+		this.loadingStateEl = document.createElement('span');
+		this.loadingStateEl.setAttribute('role', 'progressbar');
+		this.loadingStateEl.setAttribute('aria-valuetext', 'Loading');
+		this.loadingStateEl.className = 'o-video__loading-state';
+		this.adContainerEl.appendChild(this.loadingStateEl);
 
 		// display the loading state for a minimum of 2 seconds to avoid flickering
 		setTimeout(() => {
 			this.loadingStateDisplayed = true;
-			this.adContainerEl.removeChild(loadingStateEl);
 			this.startAds();
 		}, 1000 * 2);
 
