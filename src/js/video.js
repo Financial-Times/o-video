@@ -9,7 +9,7 @@ function eventListener(video, ev) {
 
 	// Dispatch progress event at start, 25%, 50%, 75% and 100%
 	// If allProgress is set to true, then we send spoor events for every native video progress event (every 5 sec)
-	if (!video.allProgress && ev.type === 'progress' && video.getProgress() % 25 !== 0) {
+	if (!video.opts.allProgress && ev.type === 'progress' && video.getProgress() % 25 !== 0) {
 		return;
 	}
 
@@ -68,6 +68,7 @@ function getOptionsFromDataAttributes(attributes) {
 
 const defaultOpts = {
 	advertising: false,
+	allProgress: false,
 	autorender: true,
 	classes: [],
 	optimumwidth: null,
