@@ -7,9 +7,9 @@ import Playlist from './playlist';
 
 function eventListener(video, ev) {
 
-	// Dispatch progress event at start, 25%, 50%, 75% and 100%
+	// Dispatch progress event at around 25%, 50%, 75% and 100%
 	// If allProgress is set to true, then we send spoor events for every native video progress event (every 5 sec)
-	if (!video.opts.allProgress && ev.type === 'progress' && video.getProgress() % 25 !== 0) {
+	if (!video.opts.allProgress && ev.type === 'progress' && !shouldDispatch(video.getProgress())) {
 		return;
 	}
 
@@ -24,6 +24,15 @@ function eventListener(video, ev) {
 		bubbles: true
 	});
 	document.body.dispatchEvent(event);
+}
+
+function shouldDispatch(progress) {
+
+	const relevantProgressPoints = [22, 23, 24, 25, 26, 27, 28,
+									47, 48, 49, 50, 51, 52, 53,
+									72, 73, 74, 75, 76, 77, 78];
+
+	return relevantProgressPoints.includes(progress);
 }
 
 function addEvents(video, events) {
