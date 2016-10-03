@@ -258,8 +258,8 @@ class VideoAds {
 				// can adjust the UI, for example display a pause button and
 				// remaining time.
 				options.detail.action = 'adStart';
-				const event = new CustomEvent('oTracking.event', options);
-				document.body.dispatchEvent(event);
+				const startEvent = new CustomEvent('oTracking.event', options);
+				document.body.dispatchEvent(startEvent);
 
 				if (ad.isLinear()) {
 					// For a linear ad, a timer can be started to poll for
@@ -272,8 +272,8 @@ class VideoAds {
 			case google.ima.AdEvent.Type.COMPLETE:
 
 				options.detail.action = 'adComplete';
-				const event = new CustomEvent('oTracking.event', options);
-				document.body.dispatchEvent(event);
+				const endEvent = new CustomEvent('oTracking.event', options);
+				document.body.dispatchEvent(endEvent);
 
 				if (ad.isLinear()) {
 					// Would be used to clear the interval
