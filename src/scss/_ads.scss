@@ -20,7 +20,7 @@
 	// which can result in broken-looking ads if the viewport is resized or rotated while
 	// the advert is present.  Override the advert div and frame sizes to full size to "fix".
 	.o-video__ad {
-		display: table;
+		display: block;
 		overflow: hidden;
 
 		> div,
