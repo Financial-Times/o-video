@@ -47,6 +47,20 @@ detail: {
 	category: 'video',
  	contentId: video.opts.id,
 	progress: video.getProgress(),
-	duration: video.videoEl.duration
+	duration: video.getDuration()
+}
+```
+
+Further, there is a `watched` event which is fired on page `unload`. This contains the actual amount of the video watched
+(in seconds), i.e.
+
+```js
+detail: {
+    action: 'watched',
+    advertising: video.opts.advertising,
+    category: 'video',
+    contentId: video.opts.id,
+    amount: video.getAmountWatched(),
+    amountPercentage: (100 / video.getDuration()) * video.amountWatched
 }
 ```
