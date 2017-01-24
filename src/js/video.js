@@ -146,8 +146,8 @@ class Video {
 			this.updateAmountWatched();
 			fireEvent('watched', this, {
 				amount: this.getAmountWatched(2),
-				amountPercentage: this.videoEl.duration ? +((100 / this.videoEl.duration) * this.getAmountWatched()).toFixed(2) : 0
-			})
+				amountPercentage: this.getAmountWatchedPercentage(2)
+			});
 		});
 	}
 
@@ -317,6 +317,11 @@ class Video {
 	getAmountWatched(decimalPoints) {
 		const secondsWatched = this.amountWatched / 1000;
 		return decimalPoints !== undefined ? +(secondsWatched).toFixed(decimalPoints) : secondsWatched;
+	}
+
+	getAmountWatchedPercentage(decimalPoints) {
+		const percentageWatched = this.videoEl.duration ? (100 / this.videoEl.duration) * this.getAmountWatched() : 0;
+		return decimalPoints !== undefined ? +(percentageWatched).toFixed(decimalPoints) : percentageWatched;
 	}
 
 	pauseOtherVideos() {

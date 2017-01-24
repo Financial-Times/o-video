@@ -51,8 +51,8 @@ detail: {
 }
 ```
 
-Further, there is a `watched` event which is fired on page `unload`. This contains the actual amount of the video watched
-(in seconds), e.g.
+Further, there is a `watched` event which is fired on page `unload`, which contains how much (in seconds) of the
+video was actually watched, e.g.
 
 ```js
 detail: {
