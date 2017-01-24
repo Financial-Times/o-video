@@ -23,15 +23,20 @@ function eventListener(video, ev) {
 		return;
 	}
 
+	fireEvent(ev.type, video, {
+		progress: video.getProgress(),
+		duration: video.getDuration()
+	});
+}
+
+function fireEvent(action, video, extraDetail = {}) {
 	const event = new CustomEvent('oTracking.event', {
-		detail: {
-			action: ev.type,
-			advertising: video.opts.advertising,
+		detail: Object.assign({
 			category: 'video',
+			action,
+			advertising: video.opts.advertising,
 			contentId: video.opts.id,
-			progress: video.getProgress(),
-			duration: video.getDuration()
-		},
+		}, extraDetail),
 		bubbles: true
 	});
 	document.body.dispatchEvent(event);
@@ -103,6 +108,10 @@ const defaultOpts = {
 class Video {
 	constructor(el, opts) {
 		this.containerEl = el;
+		// amount of the video, in milliseconds, that has actually been 'watched'
+		this.amountWatched = 0;
+		// stores the timestamp of when the current play was started
+		this.playStart;
 
 		this.opts = Object.assign({}, defaultOpts, opts, getOptionsFromDataAttributes(this.containerEl.attributes));
 
@@ -130,6 +139,13 @@ class Video {
 		if (this.opts.autorender === true) {
 			this.init();
 		}
+
+		// send 'watched' event on page unload,
+		const unloadEventName = ('onbeforeunload' in window) ? 'beforeunload' : 'unload';
+		window.addEventListener(unloadEventName, () => {
+			this.updateAmountWatched();
+			fireEvent('watched', this, { amount: this.amountWatched })
+		});
 	}
 
 	getData() {
@@ -193,6 +209,8 @@ class Video {
 
 		addEvents(this, ['playing', 'pause', 'ended', 'progress', 'seeked']);
 		this.videoEl.addEventListener('playing', this.pauseOtherVideos.bind(this));
+		this.videoEl.addEventListener('playing', this.markPlayStart.bind(this));
+		this.videoEl.addEventListener('pause', this.updateAmountWatched.bind(this));
 		this.videoEl.addEventListener('suspend', this.clearCurrentlyPlaying.bind(this));
 		this.videoEl.addEventListener('ended', this.clearCurrentlyPlaying.bind(this));
 
@@ -304,6 +322,17 @@ class Video {
 	clearCurrentlyPlaying() {
 		if (this.currentlyPlayingVideo !== this.videoEl) {
 			this.currentlyPlayingVideo = null;
+		}
+	}
+
+	markPlayStart () {
+		this.playStart = this.playStart || Date.now();
+	}
+
+	updateAmountWatched () {
+		if (this.playStart) {
+			this.amountWatched += Date.now() - this.playStart;
+			this.playStart = undefined;
 		}
 	}
 
