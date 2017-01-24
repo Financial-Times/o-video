@@ -60,7 +60,7 @@ detail: {
     action: 'watched',
     advertising: true,
     contentId: 5290303519001
-    amount: 83.47,
-    amountPercentage: 71.96
+    amount: 83.47, // amount of the video actually watched, in seconds
+    amountPercentage: 71.96 // as percentage of the total length of the video, could be > 100
 }
 ```
