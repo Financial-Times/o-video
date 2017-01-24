@@ -145,8 +145,8 @@ class Video {
 		window.addEventListener(unloadEventName, () => {
 			this.updateAmountWatched();
 			fireEvent('watched', this, {
-				amount: this.getAmountWatched().toFixed(2),
-				amountPercentage: ((100 / this.getDuration()) * this.getAmountWatched()).toFixed(2)
+				amount: this.getAmountWatched(2),
+				amountPercentage: this.videoEl.duration ? +((100 / this.videoEl.duration) * this.getAmountWatched()).toFixed(2) : 0
 			})
 		});
 	}
@@ -314,8 +314,9 @@ class Video {
 		return this.videoEl.duration ? parseInt(this.videoEl.duration, 10) : 0;
 	}
 
-	getAmountWatched() {
-		return this.amountWatched / 1000;
+	getAmountWatched(decimalPoints) {
+		const secondsWatched = this.amountWatched / 1000;
+		return decimalPoints !== undefined ? +(secondsWatched).toFixed(decimalPoints) : secondsWatched;
 	}
 
 	pauseOtherVideos() {
