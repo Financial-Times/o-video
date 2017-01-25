@@ -1,4 +1,6 @@
 /* global fetch */
+import oViewport from 'o-viewport';
+
 import crossDomainFetch from 'o-fetch-jsonp';
 import getRendition from './helpers/get-rendition';
 import VideoAds from './ads';
@@ -148,6 +150,15 @@ class Video {
 				amount: this.getAmountWatched(2),
 				amountPercentage: this.getAmountWatchedPercentage(2)
 			});
+		});
+		oViewport.listenTo('visibility');
+		// pause 'watching' the video if the tab is hidden
+		window.addEventListener('oViewport.visibility', ev => {
+			if (ev.detail.hidden) {
+				this.updateAmountWatched();
+			} else if (!this.videoEl.paused) {
+				this.markPlayStart();
+			}
 		});
 	}
 
@@ -339,7 +350,7 @@ class Video {
 	}
 
 	markPlayStart () {
-		this.playStart = this.playStart || Date.now();
+		this.playStart = Date.now();
 	}
 
 	updateAmountWatched () {
