@@ -95,6 +95,24 @@ function getOptionsFromDataAttributes(attributes) {
 	return opts;
 }
 
+function unloadListener() {
+	this.updateAmountWatched();
+	fireEvent('watched', this, {
+		amount: this.getAmountWatched(2),
+		amountPercentage: this.getAmountWatchedPercentage(2)
+	});
+}
+
+function visibilityListener(ev) {
+	if (ev.detail.hidden) {
+		this.updateAmountWatched();
+	} else if (!this.videoEl.paused) {
+		this.markPlayStart();
+	}
+}
+
+const unloadEventName = ('onbeforeunload' in window) ? 'beforeunload' : 'unload';
+
 const defaultOpts = {
 	advertising: false,
 	allProgress: false,
@@ -114,6 +132,8 @@ class Video {
 		this.amountWatched = 0;
 		// stores the timestamp of when the current play was started
 		this.playStart;
+		this.unloadListener = unloadListener.bind(this);
+		this.visibilityListener = visibilityListener.bind(this);
 
 		this.opts = Object.assign({}, defaultOpts, opts, getOptionsFromDataAttributes(this.containerEl.attributes));
 
@@ -141,25 +161,6 @@ class Video {
 		if (this.opts.autorender === true) {
 			this.init();
 		}
-
-		// send 'watched' event on page unload,
-		const unloadEventName = ('onbeforeunload' in window) ? 'beforeunload' : 'unload';
-		window.addEventListener(unloadEventName, () => {
-			this.updateAmountWatched();
-			fireEvent('watched', this, {
-				amount: this.getAmountWatched(2),
-				amountPercentage: this.getAmountWatchedPercentage(2)
-			});
-		});
-		oViewport.listenTo('visibility');
-		// pause 'watching' the video if the tab is hidden
-		window.addEventListener('oViewport.visibility', ev => {
-			if (ev.detail.hidden) {
-				this.updateAmountWatched();
-			} else if (!this.videoEl.paused) {
-				this.markPlayStart();
-			}
-		});
 	}
 
 	getData() {
@@ -231,6 +232,12 @@ class Video {
 		if (this.opts.advertising) {
 			this.videoAds.setUpAds();
 		}
+
+		// send 'watched' event on page unload,
+		window.addEventListener(unloadEventName, this.unloadListener);
+		oViewport.listenTo('visibility');
+		// pause 'watching' the video if the tab is hidden
+		window.addEventListener('oViewport.visibility', this.visibilityListener);
 	}
 
 	updateVideo() {
@@ -331,7 +338,7 @@ class Video {
 	}
 
 	getAmountWatchedPercentage(decimalPoints) {
-		const percentageWatched = this.videoEl.duration ? (100 / this.videoEl.duration) * this.getAmountWatched() : 0;
+		const percentageWatched = this.videoEl && this.videoEl.duration ? (100 / this.videoEl.duration) * this.getAmountWatched() : 0;
 		return decimalPoints !== undefined ? +(percentageWatched).toFixed(decimalPoints) : percentageWatched;
 	}
 
@@ -354,10 +361,16 @@ class Video {
 	}
 
 	updateAmountWatched () {
-		if (this.playStart) {
+		if (this.playStart !== undefined) {
 			this.amountWatched += Date.now() - this.playStart;
 			this.playStart = undefined;
 		}
+	}
+
+	destroy () {
+		// remove listeners
+		window.removeEventListener(unloadEventName, this.unloadListener);
+		window.removeEventListener('oViewport.visibility', this.visibilityListener);
 	}
 
 	static init(rootEl, config) {
