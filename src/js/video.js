@@ -368,7 +368,7 @@ class Video {
 	}
 
 	resetAmountWatched () {
-		this.amountWatched = 0
+		this.amountWatched = 0;
 	}
 
 	destroy () {
