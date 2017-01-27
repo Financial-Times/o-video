@@ -132,7 +132,7 @@ class Video {
 		this.amountWatched = 0;
 		// stores the timestamp of when the current play was started
 		this.playStart;
-		this.unloadListener = unloadListener.bind(this);
+		this.fireWatchedEvent = unloadListener.bind(this);
 		this.visibilityListener = visibilityListener.bind(this);
 
 		this.opts = Object.assign({}, defaultOpts, opts, getOptionsFromDataAttributes(this.containerEl.attributes));
@@ -234,7 +234,7 @@ class Video {
 		}
 
 		// send 'watched' event on page unload,
-		window.addEventListener(unloadEventName, this.unloadListener);
+		window.addEventListener(unloadEventName, this.fireWatchedEvent);
 		oViewport.listenTo('visibility');
 		// pause 'watching' the video if the tab is hidden
 		window.addEventListener('oViewport.visibility', this.visibilityListener);
@@ -367,9 +367,13 @@ class Video {
 		}
 	}
 
+	resetAmountWatched () {
+		this.amountWatched = 0
+	}
+
 	destroy () {
 		// remove listeners
-		window.removeEventListener(unloadEventName, this.unloadListener);
+		window.removeEventListener(unloadEventName, this.fireWatchedEvent);
 		window.removeEventListener('oViewport.visibility', this.visibilityListener);
 	}
 
