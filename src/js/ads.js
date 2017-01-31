@@ -327,7 +327,7 @@ class VideoAds {
 
 	adErrorHandler(adError) {
 		// NOTE: has the API changed? now need to call `getError` method to get the ad error
-		const actualError = ('getError' in adError) ? adError.getError() : adError;
+		const actualError = ('getError' in adError && typeof adError.getError === 'function') ? adError.getError() : adError;
 
 		// convert the Google Ad error to a JS one
 		const message = `${actualError.getErrorCode()}, ${actualError.getType()}, ${actualError.getMessage()}, ${actualError.getVastErrorCode()}`;
