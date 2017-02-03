@@ -21,7 +21,7 @@ describe('Video', () => {
 	});
 
 	describe('constructor', () => {
-		it.only('should be able to instantiate', () => {
+		it('should be able to instantiate', () => {
 			const video = new Video(containerEl);
 			video.should.be.an.instanceOf(Video);
 
