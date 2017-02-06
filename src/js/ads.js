@@ -233,6 +233,19 @@ class VideoAds {
 		// display the loading state for a minimum of 2 seconds to avoid flickering
 		setTimeout(() => {
 			this.loadingStateDisplayed = true;
+
+			// Temporary fix to verify DFP behaviour
+			const options = {
+				detail: {
+					category: 'video',
+					action: 'adTimeout',
+					contentId: this.video.opts.id
+				},
+				bubbles: true
+			};
+			const requestedEvent = new CustomEvent('oTracking.event', options);
+			document.body.dispatchEvent(requestedEvent);
+
 			this.startAds();
 		}, 1000 * 2);
 
