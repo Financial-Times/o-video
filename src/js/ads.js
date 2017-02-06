@@ -169,6 +169,18 @@ class VideoAds {
 		this.adsManager.addEventListener(google.ima.AdEvent.Type.SKIPPED, this.adEventHandler);
 		this.adsManager.addEventListener(google.ima.AdEvent.Type.SKIPPABLE_STATE_CHANGED, this.adEventHandler);
 
+		// Temporary fix to verify DFP behaviour
+		const options = {
+			detail: {
+				category: 'video',
+				action: 'adLoaded',
+				contentId: this.video.opts.id
+			},
+			bubbles: true
+		};
+		const adsLoadedEvent = new CustomEvent('oTracking.event', options);
+		document.body.dispatchEvent(adsLoadedEvent);
+
 		this.adsLoaded = true;
 		this.startAds();
 	}
