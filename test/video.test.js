@@ -494,7 +494,7 @@ describe('Video', () => {
 			video.addVideo();
 			setTimeout(() => {
 				video.getTrackMode().should.equal('disabled');
-			}, 100)
+			}, 100);
 		});
 
 		it('should return undefined if the video has no captions', () => {
@@ -502,7 +502,7 @@ describe('Video', () => {
 			video.addVideo();
 			setTimeout(() => {
 				video.getTrackMode().should.equal(undefined);
-			}, 100)
+			}, 100);
 		});
 
 	});
