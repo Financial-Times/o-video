@@ -492,13 +492,17 @@ describe('Video', () => {
 		it('should return the state of the video text track', () => {
 			const video = new Video(containerEl, { captionsUrl: 'http://localhost/a.vtt' });
 			video.addVideo();
-			video.getTrackMode().should.equal('disabled');
+			setTimeout(() => {
+				video.getTrackMode().should.equal('disabled');
+			}, 100)
 		});
 
 		it('should return undefined if the video has no captions', () => {
 			const video = new Video(containerEl, {});
 			video.addVideo();
-			video.getTrackMode().should.equal(undefined);
+			setTimeout(() => {
+				video.getTrackMode().should.equal(undefined);
+			}, 100)
 		});
 
 	});
