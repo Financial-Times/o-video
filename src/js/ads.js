@@ -175,6 +175,22 @@ class VideoAds {
 
 	startAds() {
 
+		// Temporary fix to verify DFP behaviour
+		const options = {
+			detail: {
+				category: 'video',
+				action: 'adAttemptToPlay',
+				contentId: this.video.opts.id,
+				videoLoaded: this.videoLoaded,
+				loadingStateDisplayed: this.loadingStateDisplayed,
+				advertising: this.video.opts.advertising,
+				adsLoaded: this.adsLoaded
+			},
+			bubbles: true
+		};
+		const requestedEvent = new CustomEvent('oTracking.event', options);
+		document.body.dispatchEvent(requestedEvent);
+
 		// For ads to play correctly both the video and the advert video need to be ready to
 		// play; this function needs to be called after the two flags in adsManagerLoadedHandler()
 		// and playAdEventHandler() have been set.
@@ -234,7 +250,7 @@ class VideoAds {
 		setTimeout(() => {
 			this.loadingStateDisplayed = true;
 
-			// Temporary fix to verify DFP behaviour
+			// Temporary fix to verify rFP behaviour
 			const options = {
 				detail: {
 					category: 'video',
@@ -243,8 +259,8 @@ class VideoAds {
 				},
 				bubbles: true
 			};
-			const requestedEvent = new CustomEvent('oTracking.event', options);
-			document.body.dispatchEvent(requestedEvent);
+			const timeoutEvent = new CustomEvent('oTracking.event', options);
+			document.body.dispatchEvent(timeoutEvent);
 
 			this.startAds();
 		}, 1000 * 2);
@@ -335,6 +351,19 @@ class VideoAds {
 	}
 
 	reportError(error) {
+
+		// Temporary fix to verify DFP behaviour
+		const options = {
+			detail: {
+				category: 'video',
+				action: 'adError',
+				error: error ? error.message : undefined
+			},
+			bubbles: true
+		};
+		const errorEvent = new CustomEvent('oTracking.event', options);
+		document.body.dispatchEvent(errorEvent);
+
 		document.body.dispatchEvent(new CustomEvent('oErrors.log', { bubbles: true, detail: { error: error } }));
 	}
 
