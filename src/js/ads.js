@@ -262,11 +262,11 @@ class VideoAds {
 		setTimeout(() => {
 			this.loadingStateDisplayed = true;
 
-			// Temporary fix to verify rFP behaviour
+			// Temporary fix to verify DFP behaviour
 			const options = {
 				detail: {
 					category: 'video',
-					action: 'adTimeout',
+					action: 'adLoadingState',
 					contentId: this.video.opts.id
 				},
 				bubbles: true
@@ -279,9 +279,22 @@ class VideoAds {
 
 		const loadedmetadataHandler = () => {
 			this.videoLoaded = true;
+
+			const options = {
+				detail: {
+					category: 'video',
+					action: 'loaded',
+					contentId: this.video.opts.id
+				},
+				bubbles: true
+			};
+			const videoLoadedEvent = new CustomEvent('oTracking.event', options);
+			document.body.dispatchEvent(videoLoadedEvent);
+
 			this.startAds();
 			this.video.videoEl.removeEventListener('loadedmetadata', loadedmetadataHandler);
 		};
+
 		this.video.videoEl.addEventListener('loadedmetadata', loadedmetadataHandler);
 
 		// Initialize the video. Must be done via a user action on mobile devices.
