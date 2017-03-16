@@ -37,6 +37,7 @@ Where `opts` is an optional object with properties
  * `playsinline` [`Boolean`] Whether to play the [video inline](https://webkit.org/blog/6784/new-video-policies-for-ios/) on iOS smallscreen (defaults to fullscreen)
  * `classes` [`Array`] Classes to add to the video (and placeholder) element
  * `advertising` [`Boolean`] whether or not to show ads on the video
+ * `captionsUrl` [`String`] The URL of a [WebVTT](https://w3c.github.io/webvtt/) closed-caption file.
 
 The config options can also be set as data attribute to instantiate the module declaratively:
 

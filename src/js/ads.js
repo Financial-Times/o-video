@@ -43,6 +43,7 @@ class VideoAds {
 				});
 
 				googleSdkScript.addEventListener('error', (e) => {
+					this.reportError(e);
 					reject(e);
 				});
 			}
@@ -128,6 +129,18 @@ class VideoAds {
 		adsRequest.nonLinearAdSlotWidth = 592;
 		adsRequest.nonLinearAdSlotHeight = 150;
 
+		// Temporary fix to verify DFP behaviour
+		const options = {
+			detail: {
+				category: 'video',
+				action: 'adRequested',
+				contentId: this.video.opts.id
+			},
+			bubbles: true
+		};
+		const requestedEvent = new CustomEvent('oTracking.event', options);
+		document.body.dispatchEvent(requestedEvent);
+
 		this.adsLoader.requestAds(adsRequest);
 	}
 
@@ -196,6 +209,7 @@ class VideoAds {
 			this.adsManager.start();
 		} catch (adError) {
 			// An error may be thrown if there was a problem with the VAST response.
+			this.reportError(adError);
 			this.video.videoEl.play();
 		}
 	}
@@ -227,6 +241,7 @@ class VideoAds {
 			this.startAds();
 			this.video.videoEl.removeEventListener('loadedmetadata', loadedmetadataHandler);
 		};
+
 		this.video.videoEl.addEventListener('loadedmetadata', loadedmetadataHandler);
 
 		// Initialize the video. Must be done via a user action on mobile devices.
@@ -307,7 +322,18 @@ class VideoAds {
 		}
 	}
 
-	adErrorHandler() {
+	reportError(error) {
+		document.body.dispatchEvent(new CustomEvent('oErrors.log', { bubbles: true, detail: { error: error } }));
+	}
+
+	adErrorHandler(adError) {
+		// NOTE: has the API changed? now need to call `getError` method to get the ad error
+		const actualError = ('getError' in adError && typeof adError.getError === 'function') ? adError.getError() : adError;
+
+		// convert the Google Ad error to a JS one
+		const message = `${actualError.getErrorCode()}, ${actualError.getType()}, ${actualError.getMessage()}, ${actualError.getVastErrorCode()}`;
+		this.reportError(new Error(message));
+
 		this.adsManager && this.adsManager.destroy();
 		this.video.containerEl.removeChild(this.adContainerEl);
 		if (this.overlayEl) {

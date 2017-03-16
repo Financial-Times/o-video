@@ -54,12 +54,14 @@ describe('Video', () => {
 			containerEl.setAttribute('data-o-video-optimumwidth', 300);
 			containerEl.setAttribute('data-o-video-placeholder', true);
 			containerEl.setAttribute('data-o-video-classes', 'a-class another-class');
+			containerEl.setAttribute('data-o-video-captions-url', 'https://foo.com/a.vtt');
 
 			const video = new Video(containerEl);
 			video.opts.optimumwidth.should.eql(300);
 			video.opts.placeholder.should.eql(true);
 			video.opts.classes.should.contain('a-class');
 			video.opts.classes.should.contain('another-class');
+			video.opts.captionsUrl.should.eql('https://foo.com/a.vtt');
 		});
 	});
 
@@ -135,9 +137,10 @@ describe('Video', () => {
 			Element.prototype.addEventListener = addEventListenerSpy;
 
 			video.addVideo();
-			addEventListenerSpy.callCount.should.equal(8);
 			addEventListenerSpy.alwaysCalledOn(video.videoEl).should.equal(true);
 			addEventListenerSpy.calledWith('playing', video.pauseOtherVideos);
+			addEventListenerSpy.calledWith('playing', video.markPlayStart);
+			addEventListenerSpy.calledWith('pause', video.updateAmountWatched);
 			addEventListenerSpy.calledWith('suspend', video.clearCurrentlyPlaying);
 			addEventListenerSpy.calledWith('ended', video.clearCurrentlyPlaying);
 			addEventListenerSpy.calledWith('play');
@@ -145,8 +148,120 @@ describe('Video', () => {
 			addEventListenerSpy.calledWith('pause');
 			addEventListenerSpy.calledWith('ended');
 			addEventListenerSpy.calledWith('progress');
+			addEventListenerSpy.calledWith('error');
+			addEventListenerSpy.calledWith('stalled');
 
 			Element.prototype.addEventListener = realAddEventListener;
+		});
+
+		it('should add a track element', () => {
+			containerEl.setAttribute('data-o-video-captions-url', 'https://foo.com/a.vtt');
+			const video = new Video(containerEl);
+			video.addVideo();
+			containerEl.querySelector('video > track').getAttribute('kind').should.equal('captions');
+			containerEl.querySelector('video > track').getAttribute('src').should.equal('https://foo.com/a.vtt');
+		});
+
+		describe('`watched` Event', () => {
+
+			let mochaOnbeforeunloadHandler;
+			let trackingSpy;
+
+			const createVisibilityEvent = isHidden => {
+				const visibiltyEvent = new Event('oViewport.visibility');
+				visibiltyEvent.detail = {
+					hidden: isHidden
+				};
+				return visibiltyEvent;
+			};
+
+			const unloadEventName = ('onbeforeunload' in window) ? 'beforeunload' : 'unload';
+
+			const preventPageReload = ev => ev.preventDefault();
+
+			beforeEach(() => {
+				// mocha has a 'safety' valve to not allow reloading of pages; remove its handler for now
+				// https://github.com/karma-runner/karma/commit/15d80f47a227839e9b0d54aeddf49b9aa9afe8aa
+				mochaOnbeforeunloadHandler = window.onbeforeunload;
+				window.onbeforeunload = undefined;
+				// cancel reloading of the page
+				window.addEventListener(unloadEventName, preventPageReload);
+				trackingSpy = sinon.spy();
+				document.body.addEventListener('oTracking.event', trackingSpy);
+			});
+
+			afterEach(() => {
+				window.onbeforeunload = mochaOnbeforeunloadHandler;
+				window.removeEventListener(unloadEventName, preventPageReload);
+				document.body.removeEventListener('oTracking.event', trackingSpy);
+			});
+
+			it('should send `watched` event on unload', () => {
+				const video = new Video(containerEl);
+				video.addVideo();
+				video.amountWatched = 1234567;
+				// allows us to set the duration (otherwise it's read only)
+				video.videoEl = {
+					duration: 7654.321
+				};
+				window.dispatchEvent(new Event(unloadEventName, { cancelable: true }));
+
+				const eventDetail = trackingSpy.lastCall.args[0].detail;
+				eventDetail.amount.should.equal(1234.57);
+				eventDetail.amountPercentage.should.equal(16.13);
+			});
+
+			it('should not include time watched if tab isn’t visible (while video playing)', () => {
+				const clock = sinon.useFakeTimers();
+				const video = new Video(containerEl);
+				video.addVideo();
+				video.videoEl.dispatchEvent(new Event('playing'));
+				// allows us to set read only properties
+				video.videoEl = {
+					duration: 200
+				};
+				clock.tick(7000);
+				// hide tab
+				window.dispatchEvent(createVisibilityEvent(true));
+				// view tab
+				window.dispatchEvent(createVisibilityEvent(false));
+				clock.tick(3000);
+				window.dispatchEvent(new Event(unloadEventName, { cancelable: true }));
+
+				const eventDetail = trackingSpy.lastCall.args[0].detail;
+				eventDetail.amount.should.equal(10);
+				eventDetail.amountPercentage.should.equal(5);
+
+				clock.restore();
+			});
+
+			it('should not include time watched if tab isn’t visible (while video paused)', () => {
+				const clock = sinon.useFakeTimers();
+				const video = new Video(containerEl);
+				video.addVideo();
+				video.videoEl.dispatchEvent(new Event('playing'));
+				clock.tick(10000);
+				video.videoEl.dispatchEvent(new Event('paused'));
+				// // allows us to set read only properties
+				video.videoEl = {
+					paused: true,
+					duration: 200
+				};
+				// hide tab
+				window.dispatchEvent(createVisibilityEvent(true));
+				// view tab
+				window.dispatchEvent(createVisibilityEvent(false));
+				// as the video is paused, this shouldn't be included in the watched total
+				clock.tick(3000);
+				window.dispatchEvent(new Event(unloadEventName, { cancelable: true }));
+
+				const eventDetail = trackingSpy.lastCall.args[0].detail;
+				eventDetail.amount.should.equal(10);
+				eventDetail.amountPercentage.should.equal(5);
+
+				clock.restore();
+			});
+
 		});
 	});
 
@@ -368,6 +483,49 @@ describe('Video', () => {
 			video.videoEl.duration = 200;
 			video.videoEl.currentTime = 50;
 			video.getProgress().should.equal(25);
+		});
+
+	});
+
+	describe('#getTrackMode', () => {
+
+		it('should return the state of the video text track', () => {
+			const video = new Video(containerEl, { captionsUrl: 'http://localhost/a.vtt' });
+			video.addVideo();
+			setTimeout(() => {
+				video.getTrackMode().should.equal('disabled');
+			}, 100);
+		});
+
+		it('should return undefined if the video has no captions', () => {
+			const video = new Video(containerEl, {});
+			video.addVideo();
+			setTimeout(() => {
+				video.getTrackMode().should.equal(undefined);
+			}, 100);
+		});
+
+	});
+
+	describe('#getDuration', () => {
+		let video;
+
+		beforeEach(() => {
+			video = new Video(containerEl);
+			video.videoEl = {};
+		});
+
+		afterEach(() => {
+			video = undefined;
+		});
+
+		it('should return 0 if duration is not set', () => {
+			video.getDuration().should.equal(0);
+		});
+
+		it('should return the duration of the video as a integer', () => {
+			video.videoEl.duration = 22.46324646;
+			video.getDuration().should.equal(22);
 		});
 
 	});
