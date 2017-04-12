@@ -166,19 +166,19 @@ class Video {
 	getData() {
 		const dataPromise = this.opts.data ?
 			Promise.resolve(this.opts.data) :
-			crossDomainFetch(`//next-video.ft.com/api/${this.opts.id}`)
+			crossDomainFetch(`https://next-media-api.ft.com/v1/${this.opts.id}`)
 				.then(response => {
 					if (response.ok) {
 						return response.json();
 					} else {
-						throw Error('Brightcove responded with a ' + response.status + ' (' + response.statusText + ') for id ' + this.opts.id);
+						throw Error('Next Media API responded with a ' + response.status + ' (' + response.statusText + ') for id ' + this.opts.id);
 					}
 				});
 
 
 		return dataPromise.then(data => {
 			this.videoData = data;
-			this.posterImage = updatePosterUrl(data.videoStillURL, this.opts.optimumwidth);
+			this.posterImage = updatePosterUrl(data.mainImageUrl, this.opts.optimumwidth);
 			this.rendition = getRendition(data.renditions, this.opts);
 		});
 	}
