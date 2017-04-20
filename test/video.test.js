@@ -13,6 +13,7 @@ describe('Video', () => {
 		containerEl.setAttribute('data-o-component', 'o-video');
 		containerEl.setAttribute('data-o-video-id', 'eebe9cb5-8d4c-3bd7-8dd9-50e869e2f526');
 		containerEl.setAttribute('data-o-video-autorender', 'false');
+		containerEl.setAttribute('data-o-video-show-captions', 'false');
 		document.body.appendChild(containerEl);
 	});
 
@@ -55,14 +56,14 @@ describe('Video', () => {
 			containerEl.setAttribute('data-o-video-optimumwidth', 300);
 			containerEl.setAttribute('data-o-video-placeholder', true);
 			containerEl.setAttribute('data-o-video-classes', 'a-class another-class');
-			containerEl.setAttribute('data-o-video-captions-url', 'https://foo.com/a.vtt');
+			containerEl.setAttribute('data-o-video-show-captions', true);
 
 			const video = new Video(containerEl);
 			video.opts.optimumwidth.should.eql(300);
 			video.opts.placeholder.should.eql(true);
 			video.opts.classes.should.contain('a-class');
 			video.opts.classes.should.contain('another-class');
-			video.opts.captionsUrl.should.eql('https://foo.com/a.vtt');
+			video.opts.showCaptions.should.eql(true);
 		});
 	});
 
@@ -155,12 +156,54 @@ describe('Video', () => {
 			Element.prototype.addEventListener = realAddEventListener;
 		});
 
-		it('should add a track element', () => {
-			containerEl.setAttribute('data-o-video-captions-url', 'https://foo.com/a.vtt');
-			const video = new Video(containerEl);
-			video.addVideo();
-			containerEl.querySelector('video > track').getAttribute('kind').should.equal('captions');
-			containerEl.querySelector('video > track').getAttribute('src').should.equal('https://foo.com/a.vtt');
+		describe('captions', () => {
+			it('should add a track element by default', () => {
+				containerEl.setAttribute('data-o-component-data', mediaApiResponse1);
+				containerEl.setAttribute('data-o-video-show-captions', 'true');
+				const video = new Video(containerEl);
+
+				return video.init().then(() => {
+					video.addVideo();
+					containerEl.querySelector('video > track').getAttribute('kind').should.equal('captions');
+					containerEl.querySelector('video > track').getAttribute('src').should.equal('https://next-media-api.ft.com/v1/5393611350001.vtt');
+				});
+			});
+
+			it('should throw if captions are added by calling addVideo() directly', () => {
+				containerEl.setAttribute('data-o-component-data', mediaApiResponse1);
+				containerEl.setAttribute('data-o-video-show-captions', 'true');
+				const video = new Video(containerEl);
+
+				video.addVideo.should.throw();
+			});
+
+			it('shouldn‘t add a track element if specified', () => {
+				containerEl.setAttribute('data-o-component-data', mediaApiResponse1);
+				containerEl.setAttribute('data-o-video-show-captions', 'false');
+				const video = new Video(containerEl);
+
+				video.addVideo();
+				should.equal(containerEl.querySelector('video > track'), null);
+			});
+
+			it('should use the captionsUrl from the API if not passed in directly', () => {
+				containerEl.setAttribute('data-o-video-show-captions', 'true');
+				const video = new Video(containerEl);
+
+				return video.init().then(() => {
+					containerEl.querySelector('video > track').getAttribute('kind').should.equal('captions');
+					containerEl.querySelector('video > track').getAttribute('src').should.equal('https://next-media-api.ft.com/v1/5393611350001.vtt');
+				});
+			});
+
+			it('should get the captionsUrl from the API, but not use if specified', () => {
+				containerEl.setAttribute('data-o-video-show-captions', 'false');
+				const video = new Video(containerEl);
+
+				return video.init().then(() => {
+					should.equal(containerEl.querySelector('video > track'), null);
+				});
+			});
 		});
 
 		describe('`watched` Event', () => {
@@ -490,11 +533,15 @@ describe('Video', () => {
 	describe('#getTrackMode', () => {
 
 		it('should return the state of the video text track', () => {
-			const video = new Video(containerEl, { captionsUrl: 'http://localhost/a.vtt' });
-			video.addVideo();
-			setTimeout(() => {
-				video.getTrackMode().should.equal('disabled');
-			}, 100);
+			containerEl.setAttribute('data-o-video-show-captions', 'true');
+			const video = new Video(containerEl);
+
+			video.init().then(() => {
+				video.addVideo();
+				setTimeout(() => {
+					video.getTrackMode().should.equal('disabled');
+				}, 100);
+			});
 		});
 
 		it('should return undefined if the video has no captions', () => {

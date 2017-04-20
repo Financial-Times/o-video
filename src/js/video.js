@@ -122,6 +122,7 @@ const defaultOpts = {
 	placeholder: false,
 	placeholderInfo: ['title'],
 	playsinline: false,
+	showCaptions: true,
 	data: null
 };
 
@@ -220,18 +221,9 @@ class Video {
 			this.videoEl.autoplay = this.videoEl.autostart = true;
 		}
 
-		if (this.opts.captionsUrl) {
-			// FIXME this is all hardcoded as English captions at the moment
-			const trackEl = document.createElement('track');
-			trackEl.setAttribute('label', 'English');
-			trackEl.setAttribute('kind', 'captions');
-			trackEl.setAttribute('srclang', 'en');
-			trackEl.setAttribute('src', this.opts.captionsUrl);
-			trackEl.setAttribute('crossorigin', 'true');
-			this.videoEl.setAttribute('crossorigin', 'true');
-			this.videoEl.appendChild(trackEl);
+		if (this.opts.showCaptions === true) {
+			this.addCaptions();
 		}
-
 
 		this.containerEl.appendChild(this.videoEl);
 
@@ -251,6 +243,24 @@ class Video {
 		oViewport.listenTo('visibility');
 		// pause 'watching' the video if the tab is hidden
 		window.addEventListener('oViewport.visibility', this.visibilityListener);
+	}
+
+	addCaptions() {
+		if (typeof this.videoData === 'undefined') {
+			throw new Error('Please call `getData()` before calling `addCaptions()` directly.');
+		}
+
+		if (this.videoData.captionsUrl) {
+			// FIXME this is all hardcoded as English captions at the moment
+			const trackEl = document.createElement('track');
+			trackEl.setAttribute('label', 'English');
+			trackEl.setAttribute('kind', 'captions');
+			trackEl.setAttribute('srclang', 'en');
+			trackEl.setAttribute('src', this.videoData.captionsUrl);
+			trackEl.setAttribute('crossorigin', 'true');
+			this.videoEl.setAttribute('crossorigin', 'true');
+			this.videoEl.appendChild(trackEl);
+		}
 	}
 
 	updateVideo() {
