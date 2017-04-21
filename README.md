@@ -27,8 +27,7 @@ const video = new OVideo(document.body, opts);
 
 Where `opts` is an optional object with properties
 
- * `id` [`Number`] Source's ID of the video
- * `source` [`String`] Source of the video (currently only accepts `brightcove`)
+ * `id` [`Number`] Source's ID of the video (`brightcoveId` or `uuid`)
  * `optimumwidth` [`Number`] The optimum width of the video placeholder image
  * `optimumvideowidth` [`Number`] The optimum width of the video itself, used when there are multiple video renditions available to
  decide which to display (the smallest one that's at least as large as this width, if it exists)
@@ -38,7 +37,7 @@ Where `opts` is an optional object with properties
  * `classes` [`Array`] Classes to add to the video (and placeholder) element
  * `advertising` [`Boolean`] whether or not to show ads on the video
  * `allProgress` [`Boolean`] set to true to send all native video progress events to spoor (defaults to sending at 25%/50%/75%)
- * `captionsUrl` [`String`] The URL of a [WebVTT](https://w3c.github.io/webvtt/) closed-caption file.
+ * `showCaptions` [`Boolean`] whether or not to add captions to the video. Defaults to *true*.
 
 The config options can also be set as data attribute to instantiate the module declaratively:
 
@@ -79,6 +78,27 @@ $ npm test
 
 
 ## Migration Guide
+
+Migrating from 2.0 to 3.0
+-------------------------
+
+The `videoSource` and `captionsUrl` options no longer exist. Captions can be toggled on or off by using the `showCaptions` boolean. This defaults to `true`, so if the video data (now gotten from the [next-media-api](https://github.com/Financial-Times/next-media-api)) contains captions, then the component will present them to the user.
+
+Since 3.0, if `showCaptions` is *true*, calling `addVideo()` directly will throw an error. This is due to the fact the component needs to source the `captionsUrl` first. Either leave `autorender` as *true* or call `init()` instead.
+
+```diff
+<div class="video-container">
+	<div class="o-video" data-o-component="o-video"
+-		data-o-video-source="Brightcove"
+		data-o-component="o-video"
+		data-o-video-id="4165329773001"
+		data-o-video-advertising="true"
+		data-o-video-placeholder="true"
+- 		data-o-video-captions-url="http://www.path.to/captions.vtt"
++ 		data-o-video-show-captions="true"
+	></div>
+</div>
+```
 
 Migrating from 1.0 to 2.0
 -------------------------
