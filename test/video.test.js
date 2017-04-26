@@ -97,7 +97,7 @@ describe('Video', () => {
 			containerEl.setAttribute('data-o-video-id', '4084879507001');
 			const video = new Video(containerEl);
 
-			video.init().then(() => {
+			return video.getData().then(() => {
 				video.videoData.id.should.eql('be1ffaec-9a12-3dd7-8114-6b54a8a82ed2');
 			});
 		});
@@ -106,7 +106,7 @@ describe('Video', () => {
 			containerEl.setAttribute('data-o-video-id', 'be1ffaec-9a12-3dd7-8114-6b54a8a82ed2');
 			const video = new Video(containerEl);
 
-			video.init().then(() => {
+			return video.getData().then(() => {
 				video.videoData.id.should.eql('be1ffaec-9a12-3dd7-8114-6b54a8a82ed2');
 			});
 		});
@@ -187,6 +187,22 @@ describe('Video', () => {
 		});
 
 		describe('captions', () => {
+			let fetchStub;
+
+			beforeEach(() => {
+				const res1 = new window.Response(JSON.stringify(mediaApiResponse1), {
+					status: 200,
+					headers: { 'Content-type': 'application/json' }
+				});
+
+				fetchStub = sinon.stub(window, 'fetch');
+				fetchStub.resolves(res1);
+			});
+
+			afterEach(() => {
+				fetchStub.restore();
+			});
+
 			it('should add a track element by default', () => {
 				containerEl.setAttribute('data-o-component-data', mediaApiResponse1);
 				containerEl.setAttribute('data-o-video-show-captions', 'true');
@@ -428,6 +444,8 @@ describe('Video', () => {
 	});
 
 	describe('#update', () => {
+		let fetchStub;
+
 		beforeEach(() => {
 			const res1 = new window.Response(JSON.stringify(mediaApiResponse1), {
 				status: 200,
@@ -439,17 +457,17 @@ describe('Video', () => {
 				headers: { 'Content-type': 'application/json' }
 			});
 
-			sinon.stub(window, 'fetch');
+			fetchStub = sinon.stub(window, 'fetch');
 
-			window.fetch.onFirstCall().returns(Promise.resolve(res1));
-			window.fetch.onSecondCall().returns(Promise.resolve(res2));
+			fetchStub.onFirstCall().returns(Promise.resolve(res1));
+			fetchStub.onSecondCall().returns(Promise.resolve(res2));
 
 			// FF on Linux doesn't always support H264 so to avoid going 💥 on CI, stub
 			sinon.stub(HTMLVideoElement.prototype, 'canPlayType').returns('maybe');
 		});
 
 		afterEach(() => {
-			window.fetch.restore();
+			fetchStub.restore();
 			HTMLVideoElement.prototype.canPlayType.restore();
 		});
 
@@ -561,25 +579,40 @@ describe('Video', () => {
 	});
 
 	describe('#getTrackMode', () => {
+		let fetchStub;
+
+		beforeEach(() => {
+			const res1 = new window.Response(JSON.stringify(mediaApiResponse1), {
+				status: 200,
+				headers: { 'Content-type': 'application/json' }
+			});
+
+			fetchStub = sinon.stub(window, 'fetch');
+			fetchStub.resolves(res1);
+		});
+
+		afterEach(() => {
+			fetchStub.restore();
+		});
 
 		it('should return the state of the video text track', () => {
 			containerEl.setAttribute('data-o-video-show-captions', 'true');
 			const video = new Video(containerEl);
 
-			video.init().then(() => {
+			video.getData().then(() => {
 				video.addVideo();
-				setTimeout(() => {
-					video.getTrackMode().should.equal('disabled');
-				}, 100);
+				video.getTrackMode().should.eventually.equal('disabled');
 			});
 		});
 
 		it('should return undefined if the video has no captions', () => {
-			const video = new Video(containerEl, {});
-			video.addVideo();
-			setTimeout(() => {
-				video.getTrackMode().should.equal(undefined);
-			}, 100);
+			containerEl.setAttribute('data-o-video-show-captions', 'false');
+			const video = new Video(containerEl);
+
+			video.getData().then(() => {
+				video.addVideo();
+				video.getTrackMode().should.eventually.equal(undefined);
+			});
 		});
 
 	});
@@ -638,6 +671,7 @@ describe('Video', () => {
 					);
 				});
 		});
+
 		it('should request an optimised rendition if optimumvideowidth defined', () => {
 			containerEl.setAttribute('data-o-video-optimumvideowidth', '300');
 			const video = new Video(containerEl);
