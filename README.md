@@ -28,6 +28,7 @@ const video = new OVideo(document.body, opts);
 Where `opts` is an optional object with properties
 
  * `id` [`Number`] Source's ID of the video (`brightcoveId` or `uuid`)
+ * `autorender` [`Boolean`] Whether to have the video render automatically. If *false* then you will need to call `init()` when ready
  * `optimumwidth` [`Number`] The optimum width of the video placeholder image
  * `optimumvideowidth` [`Number`] The optimum width of the video itself, used when there are multiple video renditions available to
  decide which to display (the smallest one that's at least as large as this width, if it exists)
