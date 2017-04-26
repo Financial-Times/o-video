@@ -1,4 +1,4 @@
-/* global describe, context, it, beforeEach, afterEach, should */
+/* global describe, context, it, before, beforeEach, afterEach, should */
 const Video = require('./../src/js/video');
 const mediaApiResponse1 = require('./fixtures/media-api-1.json');
 const mediaApiResponse2 = require('./fixtures/media-api-2.json');
@@ -79,6 +79,36 @@ describe('Video', () => {
 			videos.length.should.eql(1);
 			const videos2 = Video.init();
 			videos2.length.should.eql(0);
+		});
+	});
+
+	describe('Working with different videoId formats', () => {
+		let originalVideoId;
+
+		before(() => {
+			originalVideoId = containerEl.getAttribute('data-o-video-id');
+		});
+
+		afterEach(() => {
+			containerEl.setAttribute('data-o-video-id', originalVideoId);
+		});
+
+		it('can work with a brightcoveId', () => {
+			containerEl.setAttribute('data-o-video-id', '4084879507001');
+			const video = new Video(containerEl);
+
+			video.init().then(() => {
+				video.videoData.id.should.eql('be1ffaec-9a12-3dd7-8114-6b54a8a82ed2');
+			});
+		});
+
+		it('can work with a uuid', () => {
+			containerEl.setAttribute('data-o-video-id', 'be1ffaec-9a12-3dd7-8114-6b54a8a82ed2');
+			const video = new Video(containerEl);
+
+			video.init().then(() => {
+				video.videoData.id.should.eql('be1ffaec-9a12-3dd7-8114-6b54a8a82ed2');
+			});
 		});
 	});
 
