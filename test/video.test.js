@@ -197,10 +197,14 @@ describe('Video', () => {
 
 				fetchStub = sinon.stub(window, 'fetch');
 				fetchStub.resolves(res1);
+
+				// FF on Linux doesn't always support H264 so to avoid going 💥 on CI, stub
+				sinon.stub(HTMLVideoElement.prototype, 'canPlayType').returns('maybe');
 			});
 
 			afterEach(() => {
 				fetchStub.restore();
+				HTMLVideoElement.prototype.canPlayType.restore();
 			});
 
 			it('should add a track element by default', () => {
@@ -589,10 +593,14 @@ describe('Video', () => {
 
 			fetchStub = sinon.stub(window, 'fetch');
 			fetchStub.resolves(res1);
+
+			// FF on Linux doesn't always support H264 so to avoid going 💥 on CI, stub
+			sinon.stub(HTMLVideoElement.prototype, 'canPlayType').returns('maybe');
 		});
 
 		afterEach(() => {
 			fetchStub.restore();
+			HTMLVideoElement.prototype.canPlayType.restore();
 		});
 
 		it('should return the state of the video text track', () => {
@@ -653,10 +661,14 @@ describe('Video', () => {
 				}
 			});
 			fetchStub.returns(Promise.resolve(res));
+
+			// FF on Linux doesn't always support H264 so to avoid going 💥 on CI, stub
+			sinon.stub(HTMLVideoElement.prototype, 'canPlayType').returns('maybe');
 		});
 
 		afterEach(() => {
 			fetchStub.restore();
+			HTMLVideoElement.prototype.canPlayType.restore();
 		});
 
 		it('should send poster through image service if optimumwidth defined', () => {
