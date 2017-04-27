@@ -97,8 +97,8 @@ function getOptionsFromDataAttributes(attributes) {
 function unloadListener() {
 	this.updateAmountWatched();
 	fireEvent('watched', this, {
-		amount: this.getAmountWatched(2),
-		amountPercentage: this.getAmountWatchedPercentage(2)
+		amount: this.getAmountWatched(0),
+		amountPercentage: this.getAmountWatchedPercentage(0)
 	});
 }
 
@@ -211,6 +211,11 @@ class Video {
 		if (this.opts.playsinline) {
 			this.videoEl.setAttribute('playsinline', 'true');
 			this.videoEl.setAttribute('webkit-playsinline', 'true');
+		}
+
+		// disable download button in Chrome 58+
+		if (this.videoEl.controlsList) {
+			this.videoEl.controlsList.add('nodownload');
 		}
 
 		this.updateVideo();
