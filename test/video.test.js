@@ -419,10 +419,21 @@ describe('Video', () => {
 			video.infoPanel.descriptionEl.textContent.should.contain('Top stories in the markets');
 			video.infoPanel.descriptionEl.parentElement.should.equal(video.infoPanel.infoEl);
 
-			// can extract `brand:` prefixed tag
 			video.infoPanel.brandEl.textContent.should.equal('Market Minute');
 			video.infoPanel.brandEl.parentElement.should.equal(video.infoPanel.infoEl);
+		});
 
+		it('should be able to create an info panel when there is no brand name', () => {
+			const video = new Video(containerEl, {
+				autorender: false,
+				placeholder: true,
+				placeholderInfo: ['brand']
+			});
+
+			video.videoData = Object.assign({}, mediaApiResponse1, { brand: null });
+			video.addPlaceholder();
+
+			video.infoPanel.brandEl.textContent.should.equal('');
 		});
 
 		it('should be able to create a placeholder with a play button', () => {
