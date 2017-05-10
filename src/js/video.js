@@ -185,7 +185,7 @@ class Video {
 
 		return dataPromise.then(data => {
 			this.videoData = data;
-			this.posterImage = updatePosterUrl(data.mainImageUrl, this.opts.optimumwidth);
+			this.posterImage = data.mainImageUrl && updatePosterUrl(data.mainImageUrl, this.opts.optimumwidth);
 			this.rendition = getRendition(data.renditions, this.opts);
 		});
 	}
@@ -276,7 +276,12 @@ class Video {
 	}
 
 	updateVideo() {
-		this.videoEl.poster = this.posterImage;
+		if (this.posterImage) {
+			this.videoEl.poster = this.posterImage;
+		} else {
+			this.videoEl.removeAttribute('poster');
+		}
+
 		this.videoEl.src = this.rendition && this.rendition.url;
 
 		if (this.opts.showCaptions === true) {
@@ -340,7 +345,10 @@ class Video {
 	}
 
 	updatePlaceholder() {
-		this.placeholderImageEl.src = this.posterImage;
+		if (this.posterImage) {
+			this.placeholderImageEl.src = this.posterImage;
+		}
+
 		this.infoPanel && this.infoPanel.update();
 	}
 

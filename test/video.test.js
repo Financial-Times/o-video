@@ -557,6 +557,24 @@ describe('Video', () => {
 				});
 			});
 
+			it('removes the poster if not supplied in data', () => {
+				const mediaApiNoPoster = Object.assign({}, mediaApiResponse2, { mainImageUrl: null });
+				const resNoPoster = new window.Response(JSON.stringify(mediaApiNoPoster), {
+					status: 200,
+					headers: { 'Content-type': 'application/json' }
+				});
+
+				fetchStub.resetBehavior();
+				fetchStub.returns(Promise.resolve(resNoPoster));
+
+				video.videoEl.poster.should.include('5393611350001');
+
+				const newOpts = { id: mediaApiResponse2.id };
+				return video.update(newOpts).then(() => {
+					video.videoEl.poster.should.equal('');
+				});
+			});
+
 			it('replaces the previous captions with the new ones', () => {
 				const resWithCaptions = new window.Response(JSON.stringify(mediaApiResponse2), {
 					status: 200,
