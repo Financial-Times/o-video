@@ -84,7 +84,15 @@ function getOptionsFromDataAttributes(attributes) {
 
 			try {
 				// If it's a JSON, a boolean or a number, we want it stored like that, and not as a string
-				opts[key] = JSON.parse(attr.value);
+
+				// For legacy o-video embeds, we'll need to check for placeHolderInfo attributes
+				// as they typically pass data in with single quotes, which won't parse:
+				// data-o-video-placeholder-info="['title', 'description']"
+				if (key === 'placeholderInfo') {
+					opts[key] = JSON.parse(attr.value.replace(/\'/g, '"'));
+				} else {
+					opts[key] = JSON.parse(attr.value);
+				}
 			} catch (e) {
 				opts[key] = attr.value;
 			}

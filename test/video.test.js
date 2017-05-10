@@ -54,12 +54,14 @@ describe('Video', () => {
 		it('should allow setting options through attribute', () => {
 			containerEl.setAttribute('data-o-video-optimumwidth', 300);
 			containerEl.setAttribute('data-o-video-placeholder', true);
+			containerEl.setAttribute('data-o-video-placeholder-info', '[\'title\', \'description\']');
 			containerEl.setAttribute('data-o-video-classes', 'a-class another-class');
 			containerEl.setAttribute('data-o-video-show-captions', true);
 
 			const video = new Video(containerEl);
 			video.opts.optimumwidth.should.eql(300);
 			video.opts.placeholder.should.eql(true);
+			video.opts.placeholderInfo.should.eql(['title', 'description']);
 			video.opts.classes.should.contain('a-class');
 			video.opts.classes.should.contain('another-class');
 			video.opts.showCaptions.should.eql(true);
