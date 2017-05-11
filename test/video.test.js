@@ -504,7 +504,7 @@ describe('Video', () => {
 					id: 'eebe9cb5-8d4c-3bd7-8dd9-50e869e2f526',
 					autorender: false,
 					placeholder: true,
-					placeholderInfo: ['title']
+					placeholderInfo: ['title', 'brand']
 				});
 
 				return video.init();
@@ -528,6 +528,25 @@ describe('Video', () => {
 				return video.update(newOpts).then(() => {
 					video.placeholderImageEl.src.should.include('5394885102001');
 					video.infoPanel.titleEl.textContent.should.equal(mediaApiResponse2.title);
+				});
+			});
+
+			it('removes previous brand tag', () => {
+				const mediaApiNoBrand = Object.assign({}, mediaApiResponse2, { brand: null });
+				const resNoBrand = new window.Response(JSON.stringify(mediaApiNoBrand), {
+					status: 200,
+					headers: { 'Content-type': 'application/json' }
+				});
+
+				fetchStub.resetBehavior();
+				fetchStub.returns(Promise.resolve(resNoBrand));
+
+				const newOpts = { id: mediaApiResponse2.id };
+
+				video.infoPanel.brandEl.textContent.should.equal('Market Minute');
+
+				return video.update(newOpts).then(() => {
+					video.infoPanel.brandEl.textContent.should.equal('');
 				});
 			});
 		});
