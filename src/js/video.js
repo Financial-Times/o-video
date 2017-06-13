@@ -317,7 +317,7 @@ class Video {
 		playButtonTextEl.textContent = 'Play video';
 		playButtonEl.appendChild(playButtonTextEl);
 
-		const playButtonIconEl = document.createElement('i');
+		const playButtonIconEl = document.createElement('span');
 		playButtonIconEl.className = 'o-video__play-button-icon';
 		playButtonIconEl.textContent = this.opts.placeholderHint;
 		playButtonEl.appendChild(playButtonIconEl);
