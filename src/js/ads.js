@@ -189,6 +189,7 @@ class VideoAds {
 		// Remove the preloading spinner
 		this.loadingStateEl.parentNode.removeChild(this.loadingStateEl);
 		this.loadingStateEl = null;
+		this.loadingStateDisplayed = false;
 
 		try {
 			// Initialize the ads manager. Ad rules playlist will start at this time.
