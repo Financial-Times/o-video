@@ -46,11 +46,13 @@ function fireEvent(action, video, extraDetail = {}) {
 
 function shouldDispatch(progress) {
 
-	const relevantProgressPoints = [8, 9, 10, 11, 12,
-									23, 24, 25, 26, 27,
-									48, 49, 50, 51, 52,
-									73, 74, 75, 76, 77,
-									100];
+	const relevantProgressPoints = [
+		8, 9, 10, 11, 12,
+		23, 24, 25, 26, 27,
+		48, 49, 50, 51, 52,
+		73, 74, 75, 76, 77,
+		100
+	];
 
 	return relevantProgressPoints.includes(progress);
 }
