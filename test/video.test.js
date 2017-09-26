@@ -1,8 +1,12 @@
-/* global describe, context, it, beforeEach, afterEach, should */
+/* eslint-env mocha */
+/* eslint-disable no-unused-expressions */
+
 const Video = require('./../src/js/video');
 const mediaApiResponse1 = require('./fixtures/media-api-1.json');
 const mediaApiResponse2 = require('./fixtures/media-api-2.json');
 const sinon = require('sinon/pkg/sinon');
+const { should } = require('chai');  // Using Should style
+should();  // Modifies `Object.prototype`
 
 describe('Video', () => {
 
@@ -840,3 +844,5 @@ describe('Video', () => {
 		});
 	});
 });
+
+/* eslint-enable no-unused-expressions */

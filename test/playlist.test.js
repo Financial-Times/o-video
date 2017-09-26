@@ -1,7 +1,11 @@
-/* global describe, it, beforeEach */
+/* eslint-env mocha */
+/* eslint-disable no-unused-expressions */
+
 const Player = require('../src/js/video');
 const Subject = require('../src/js/playlist');
 const sinon = require('sinon/pkg/sinon');
+const { should } = require('chai');  // Using Should style
+should();  // Modifies `Object.prototype`
 
 function createPlayer () {
 	const stub = sinon.createStubInstance(Player);

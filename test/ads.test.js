@@ -1,6 +1,11 @@
-/* global describe, it, beforeEach, afterEach, google */
+/* global google */
+/* eslint-env mocha */
+/* eslint-disable no-unused-expressions */
+
 const Ads = require('./../src/js/ads');
 const sinon = require('sinon/pkg/sinon');
+const { should } = require('chai');  // Using Should style
+should();  // Modifies `Object.prototype`
 
 describe('Ads', () => {
 

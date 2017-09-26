@@ -1,4 +1,6 @@
-/* global describe, it */
+/* eslint-env mocha */
+/* eslint-disable no-unused-expressions */
+
 const getRendition = require('./../../src/js/helpers/get-rendition');
 const renditions = require('./../fixtures/media-api-1.json').renditions;
 
@@ -32,3 +34,4 @@ describe('Get Appropriate Renditions', () => {
 	});
 
 });
+/* eslint-enable no-unused-expressions */

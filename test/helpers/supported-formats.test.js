@@ -1,4 +1,5 @@
-/* global describe, it */
+/* eslint-env mocha */
+/* eslint-disable no-unused-expressions */
 const supportedFormats = require('./../../src/js/helpers/supported-formats');
 
 describe('Supported Formats', () => {
@@ -8,3 +9,4 @@ describe('Supported Formats', () => {
 	});
 
 });
+/* eslint-enable no-unused-expressions */
