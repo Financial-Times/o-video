@@ -315,7 +315,7 @@ class VideoAds {
 		}
 	}
 
-	reportError(error) {
+	static reportError(error) {
 		document.body.dispatchEvent(new CustomEvent('oErrors.log', { bubbles: true, detail: { error: error } }));
 	}
 
