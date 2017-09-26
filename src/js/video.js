@@ -138,8 +138,6 @@ class Video {
 		this.containerEl = el;
 		// amount of the video, in milliseconds, that has actually been 'watched'
 		this.amountWatched = 0;
-		// stores the timestamp of when the current play was started
-		this.playStart;
 		this.fireWatchedEvent = unloadListener.bind(this);
 		this.visibilityListener = visibilityListener.bind(this);
 
@@ -339,7 +337,9 @@ class Video {
 			this.videoEl.focus();
 
 			this.containerEl.removeChild(this.placeholderEl);
-			this.infoPanel && this.infoPanel.teardown();
+			if (this.infoPanel) {
+				this.infoPanel.teardown();
+			}
 
 			delete this.placeholderEl;
 			delete this.placeholderImageEl;
@@ -353,11 +353,15 @@ class Video {
 			this.placeholderImageEl.src = this.posterImage;
 		}
 
-		this.infoPanel && this.infoPanel.update();
+		if (this.infoPanel) {
+			this.infoPanel.update();
+		}
 	}
 
 	update(newOpts) {
-		this.videoEl && this.videoEl.pause();
+		if (this.videoEl) {
+			this.videoEl.pause();
+		}
 		this.clearCurrentlyPlaying();
 
 		this.opts = Object.assign(this.opts, { data: null }, newOpts);

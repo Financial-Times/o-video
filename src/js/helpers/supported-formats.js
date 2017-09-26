@@ -20,7 +20,9 @@ function supportedFormats () {
 
 	try {
 		Object.keys(formats).filter(format => {
-			formats[format].some(type => testEl.canPlayType(type)) && supported.push(format);
+			if (formats[format].some(type => testEl.canPlayType(type))) {
+				supported.push(format);
+			}
 		});
 	} catch(e) { }
 

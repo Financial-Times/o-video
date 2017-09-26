@@ -238,8 +238,10 @@ class VideoAds {
 		// Initialize the video. Must be done via a user action on mobile devices.
 		this.video.videoEl.load();
 
-		this.overlayEl && this.overlayEl.removeEventListener('click', this.playAdEventHandler);
-		this.overlayEl && this.video.containerEl.removeChild(this.overlayEl);
+		if (this.overlayEl) {
+			this.overlayEl.removeEventListener('click', this.playAdEventHandler);
+			this.video.containerEl.removeChild(this.overlayEl);
+		}
 		delete this.overlayEl;
 	}
 
@@ -325,14 +327,18 @@ class VideoAds {
 		const message = `${actualError.getErrorCode()}, ${actualError.getType()}, ${actualError.getMessage()}, ${actualError.getVastErrorCode()}`;
 		this.reportError(new Error(message));
 
-		this.adsManager && this.adsManager.destroy();
+		if (this.adsManager) {
+			this.adsManager.destroy();
+		}
 		this.video.containerEl.removeChild(this.adContainerEl);
 		if (this.overlayEl) {
 			this.overlayEl.removeEventListener('click', this.playAdEventHandler);
 			this.video.containerEl.removeChild(this.overlayEl);
 			delete this.overlayEl;
 		}
-		this.video.placeholderEl && this.video.placeholderEl.removeEventListener('click', this.playAdEventHandler);
+		if (this.video.placeholderEl) {
+			this.video.placeholderEl.removeEventListener('click', this.playAdEventHandler);
+		}
 		this.video.opts.advertising = false;
 		this.startAds();
 	}
