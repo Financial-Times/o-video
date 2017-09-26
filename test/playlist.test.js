@@ -1,11 +1,10 @@
 /* eslint-env mocha */
 /* eslint-disable no-unused-expressions */
 
-const Player = require('../src/js/video');
-const Subject = require('../src/js/playlist');
-const sinon = require('sinon/pkg/sinon');
-const { should } = require('chai');  // Using Should style
-should();  // Modifies `Object.prototype`
+import Player from '../src/js/video';
+import Subject from '../src/js/playlist';
+import sinon from 'sinon/pkg/sinon';
+import proclaim from 'proclaim';
 
 function createPlayer () {
 	const stub = sinon.createStubInstance(Player);
@@ -31,10 +30,10 @@ describe('Playlist', () => {
 		it('can instantiate', () => {
 			const instance = new Subject({ player, queue: [] });
 
-			instance.should.be.an.instanceOf(Subject);
+			proclaim.isInstanceOf(instance, Subject);
 
-			instance.opts.should.exist;
-			instance.opts.player.should.equal(player);
+			proclaim.ok(instance.opts);
+			proclaim.equal(instance.opts.player, player);
 		});
 
 		it('selects currently playing video from playlist', () => {
@@ -42,13 +41,13 @@ describe('Playlist', () => {
 
 			const instance = new Subject({ player, queue });
 
-			instance.currentIndex.should.equal(1);
+			proclaim.equal(instance.currentIndex, 1);
 		});
 
 		it('starts the playlist if the current video does not match', () => {
 			const instance = new Subject({ player, queue, autoplay: true });
 
-			instance.currentIndex.should.equal(0);
+			proclaim.equal(instance.currentIndex, 0);
 			sinon.assert.calledOnce(player.update);
 		});
 
@@ -79,9 +78,9 @@ describe('Playlist', () => {
 		it('calls the next in the queue', () => {
 			const instance = new Subject({ player, queue, autoplay: true });
 
-			instance.currentIndex.should.equal(0);
+			proclaim.equal(instance.currentIndex, 0);
 			instance.next();
-			instance.currentIndex.should.equal(1);
+			proclaim.equal(instance.currentIndex, 1);
 		});
 	});
 
@@ -89,9 +88,9 @@ describe('Playlist', () => {
 		it('calls the previous in the queue', () => {
 			const instance = new Subject({ player, queue, autoplay: true });
 
-			instance.currentIndex.should.equal(0);
+			proclaim.equal(instance.currentIndex, 0);
 			instance.prev();
-			instance.currentIndex.should.equal(instance.opts.queue.length - 1);
+			proclaim.equal(instance.currentIndex, instance.opts.queue.length - 1);
 		});
 	});
 
@@ -100,11 +99,11 @@ describe('Playlist', () => {
 			const instance = new Subject({ player, queue });
 
 			instance.goto(10);
-			instance.currentIndex.should.equal(0);
+			proclaim.equal(instance.currentIndex, 0);
 			sinon.assert.calledWith(player.update, sinon.match({ id: 'foo' }));
 
 			instance.goto(-10);
-			instance.currentIndex.should.equal(3);
+			proclaim.equal(instance.currentIndex, 3);
 			sinon.assert.calledWith(player.update, sinon.match({ id: 'qux' }));
 		});
 
@@ -115,7 +114,7 @@ describe('Playlist', () => {
 
 			instance.goto(1);
 
-			instance.cache.hasOwnProperty('abc').should.be.true;
+			proclaim.isTrue(instance.cache.hasOwnProperty('abc'));
 		});
 
 		it('retrieves next video from cache when available', () => {

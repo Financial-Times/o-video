@@ -1,11 +1,11 @@
 /* eslint-env mocha */
 /* eslint-disable no-unused-expressions */
-const supportedFormats = require('./../../src/js/helpers/supported-formats');
+import supportedFormats from './../../src/js/helpers/supported-formats';
 
 describe('Supported Formats', () => {
 
 	it('should exist', () => {
-		supportedFormats.should.exist;
+		proclaim.ok(supportedFormats);
 	});
 
 });
