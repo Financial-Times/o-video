@@ -317,6 +317,9 @@ class VideoAds {
 				document.body.dispatchEvent(skipEvent);
 				break;
 			}
+			default: {
+				throw new Error('adEvent has type ' + adEvent.type + ', which is not handled by adEventHandler');
+			}
 		}
 	}
 
