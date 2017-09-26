@@ -19,7 +19,7 @@ function supportedFormats () {
 	const supported = [];
 
 	try {
-		Object.keys(formats).filter(format => {
+		Object.keys(formats).forEach(format => {
 			if (formats[format].some(type => testEl.canPlayType(type))) {
 				supported.push(format);
 			}
