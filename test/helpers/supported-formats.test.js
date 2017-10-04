@@ -1,6 +1,6 @@
 /* eslint-env mocha */
-/* eslint-disable no-unused-expressions */
 import supportedFormats from './../../src/js/helpers/supported-formats';
+import proclaim from 'proclaim';
 
 describe('Supported Formats', () => {
 
@@ -9,4 +9,3 @@ describe('Supported Formats', () => {
 	});
 
 });
-/* eslint-enable no-unused-expressions */
