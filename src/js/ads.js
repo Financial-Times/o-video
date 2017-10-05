@@ -323,7 +323,7 @@ class VideoAds {
 		}
 	}
 
-	static reportError(error) {
+	reportError(error) {
 		document.body.dispatchEvent(new CustomEvent('oErrors.log', { bubbles: true, detail: { error: error } }));
 	}
 
