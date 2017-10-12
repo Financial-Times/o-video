@@ -323,7 +323,7 @@ class VideoAds {
 		}
 	}
 
-	reportError(error) {
+	reportError(error) { // eslint-disable-line class-methods-use-this
 		document.body.dispatchEvent(new CustomEvent('oErrors.log', { bubbles: true, detail: { error: error } }));
 	}
 
