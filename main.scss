@@ -10,9 +10,6 @@ $o-video-is-silent: true !default;
 @import "src/scss/info";
 @import "src/scss/ads";
 
-
-
-
 @if $o-video-is-silent == false {
 
 	.o-video {
