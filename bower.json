@@ -12,7 +12,6 @@
     "o-fetch-jsonp": "^2.0.0",
     "o-loading": "^2",
     "o-typography": "^5",
-    "o-viewport": "^3.0.1",
-    "o-normalise": "^1.6.2"
+    "o-viewport": "^3.0.1"
   }
 }

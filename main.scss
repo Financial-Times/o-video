@@ -4,7 +4,6 @@ $o-video-is-silent: true !default;
 @import "o-colors/main";
 @import "o-loading/main";
 @import "o-typography/main";
-@import "o-normalise/main";
 
 @import "src/scss/placeholder";
 @import "src/scss/info";
@@ -34,7 +33,15 @@ $o-video-is-silent: true !default;
 	}
 
 	.o-video__live-region {
-		@include oNormaliseVisuallyHidden();
+		position: absolute;
+		clip: rect(0 0 0 0);
+		margin: -1px;
+		border: 0;
+		overflow: hidden;
+		padding: 0;
+		width: 1px;
+		height: 1px;
+		white-space: nowrap;
 	}
 
 	$o-video-is-silent: true !global;
