@@ -466,6 +466,21 @@ describe('Video', () => {
 
 			Element.prototype.addEventListener = realAddEventListener;
 		});
+
+		it('should include the title of the video in the aria-label of the play button', () => {
+			const video = new Video(containerEl, {
+				autorender: false,
+				placeholder: true,
+				placeholdertitle: true,
+			});
+
+			video.videoData = mediaApiResponse1;
+			video.addPlaceholder();
+
+			const playIconEl = video.placeholderEl.querySelector('.o-video__play-button-icon');
+
+			proclaim.strictEqual(playIconEl.attributes['aria-label'].value, 'Play video Markets cautious, oil eases');
+		});
 	});
 
 	describe('#update', () => {
@@ -529,6 +544,15 @@ describe('Video', () => {
 				return video.update(newOpts).then(() => {
 					proclaim.include(video.placeholderImageEl.src, '5394885102001');
 					proclaim.deepEqual(video.infoPanel.titleEl.textContent, mediaApiResponse2.title);
+				});
+			});
+
+			it('updates the aria-label of the play button', () => {
+				const newOpts = { id: mediaApiResponse2.id };
+
+				return video.update(newOpts).then(() => {
+					const playIconEl = video.placeholderEl.querySelector('.o-video__play-button-icon');
+					proclaim.strictEqual(playIconEl.attributes['aria-label'].value, 'Play video The Bank of England and the bond market');
 				});
 			});
 
