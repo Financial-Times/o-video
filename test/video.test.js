@@ -477,9 +477,7 @@ describe('Video', () => {
 			video.videoData = mediaApiResponse1;
 			video.addPlaceholder();
 
-			const playIconEl = video.placeholderEl.querySelector('.o-video__play-button-icon');
-
-			proclaim.strictEqual(playIconEl.attributes['aria-label'].value, 'Play video Markets cautious, oil eases');
+			proclaim.strictEqual(video.playButtonIconEl.attributes['aria-label'].value, 'Play video Markets cautious, oil eases');
 		});
 	});
 
@@ -551,8 +549,7 @@ describe('Video', () => {
 				const newOpts = { id: mediaApiResponse2.id };
 
 				return video.update(newOpts).then(() => {
-					const playIconEl = video.placeholderEl.querySelector('.o-video__play-button-icon');
-					proclaim.strictEqual(playIconEl.attributes['aria-label'].value, 'Play video The Bank of England and the bond market');
+					proclaim.strictEqual(video.playButtonIconEl.attributes['aria-label'].value, 'Play video The Bank of England and the bond market');
 				});
 			});
 
