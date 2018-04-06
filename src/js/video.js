@@ -358,8 +358,8 @@ class Video {
 		}
 
 		if (this.playButtonIconEl) {
-			this.playButtonIconEl.setAttribute('aria-label', `Play video ${this.videoData.title}`)
-		};
+			this.playButtonIconEl.setAttribute('aria-label', `Play video ${this.videoData.title}`);
+		}
 	}
 
 	update(newOpts) {
