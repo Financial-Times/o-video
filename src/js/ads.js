@@ -43,7 +43,6 @@ class VideoAds {
 				});
 
 				googleSdkScript.addEventListener('error', (e) => {
-					this.reportError(e);
 					reject(e);
 				});
 			}
