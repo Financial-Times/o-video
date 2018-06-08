@@ -21,7 +21,7 @@ class VideoAds {
 		this.adsCompleted = false;
 	}
 
-	loadAdsLibrary() {
+	static loadAdsLibrary() {
 		return new Promise((resolve, reject) => {
 			let googleSdkScript = document.querySelector('[src="//imasdk.googleapis.com/js/sdkloader/ima3.js"]');
 
