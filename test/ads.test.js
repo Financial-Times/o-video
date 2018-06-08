@@ -5,7 +5,6 @@
 import Ads from './../src/js/ads';
 import sinon from 'sinon/pkg/sinon';
 import proclaim from 'proclaim';
-import VideoAds from './../src/js/ads';
 
 describe('Ads', () => {
 
@@ -41,7 +40,7 @@ describe('Ads', () => {
 	});
 
 	it('should add the video advertising script if the configuration parameter is passed', () => {
-		return VideoAds.loadAdsLibrary()
+		return Ads.loadAdsLibrary()
 			.then(() => {
 				proclaim.ok(document.querySelector('[src="//imasdk.googleapis.com/js/sdkloader/ima3.js"]'));
 			});
