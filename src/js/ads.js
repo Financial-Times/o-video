@@ -185,6 +185,12 @@ class VideoAds {
 			return;
 		}
 
+		// Remove the preloading spinner
+		if (this.loadingStateEl) {
+			this.loadingStateEl.parentNode.removeChild(this.loadingStateEl);
+			this.loadingStateEl = null;
+		}
+
 		try {
 			// Initialize the ads manager. Ad rules playlist will start at this time.
 			this.adsManager.init(this.video.videoEl.clientWidth, this.video.videoEl.clientHeight, google.ima.ViewMode.NORMAL);
