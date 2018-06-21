@@ -180,15 +180,9 @@ class VideoAds {
 		// If ads have failed to load, which resets the advertising support flag, play the video
 		// instead; otherwise, wait until the ads have loaded.
 		if (!this.video.opts.advertising) {
-			this.playUserVideo();
+			return this.playUserVideo();
 		} else if (!this.adsLoaded) {
 			return;
-		}
-
-		// Remove the preloading spinner
-		if (this.loadingStateEl) {
-			this.loadingStateEl.parentNode.removeChild(this.loadingStateEl);
-			this.loadingStateEl = null;
 		}
 
 		try {
