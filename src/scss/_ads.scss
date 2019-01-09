@@ -39,9 +39,7 @@
 		outline: 2px solid oColorsGetPaletteColor('black');
 
 		&:after {
-			@include oLoading();
-			@include oLoadingSize('small');
-			@include oLoadingColor('light');
+			@include oLoadingContent($opts: ('theme': 'light', 'size': 'small'));
 
 			content: '';
 			position: absolute;
