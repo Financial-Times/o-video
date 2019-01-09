@@ -4,7 +4,7 @@
 ### Migrating from 4.0 to 5.0
 
 Version 5 introduces a new major of `o-loading`. Updating to this new version will mean updating any other components that you have which are using `o-loading`.
-It also removes the dependency on `o-fetch-jsonp`, and requires the `fetch` polyfill to run in older browsers.
+It also removes the dependency on `o-fetch-jsonp`, and requires the `fetch` polyfill to run in older browsers— we recommend visiting the [documentation for the Polyfill service](https://origami-test.ft.com/docs/components/compatibility/#polyfill-service) to do so.
 
 ### Migrating from 3.0 to 4.0
 
