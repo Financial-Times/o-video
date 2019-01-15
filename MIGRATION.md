@@ -4,7 +4,21 @@
 ### Migrating from 4.0 to 5.0
 
 Version 5 introduces a new major of `o-loading`. Updating to this new version will mean updating any other components that you have which are using `o-loading`.
+
 It also removes the dependency on `o-fetch-jsonp`, and requires the `fetch` polyfill to run in older browsers— we recommend visiting the [documentation for the Polyfill service](https://origami-test.ft.com/docs/components/compatibility/#polyfill-service) to do so.
+
+This version also introduces the primary mixin, `oVideo()`.
+
+The following mixins are now private. Make sure your project does not use them, use `oVideo` instead:
+
+```diff
+-oVideoInfoSmall
++_oVideoInfoSmall
+-oVideoInfoMedium
++_oVideoInfoMedium
+-oVideoInfoLarge
++_oVideoInfoLarge
+```
 
 ### Migrating from 3.0 to 4.0
 
@@ -28,6 +42,40 @@ In the previous version, the call to the API could be skipped by using the `data
 		data-o-video-placeholder="true"
 - 		data-o-video-captions-url="http://www.path.to/captions.vtt"
 + 		data-o-video-show-captions="true"
+	></div>
+</div>
+```
+
+The `placeholdertitle` property no longer exists, it has been replaced by `placeholder-info` which accepts an array containing one or more of `'title'`, `'description'`, `'brand'`.
+
+```diff
+<div class="video-container">
+	<div class="o-video" data-o-component="o-video"
+		data-o-video-source="Brightcove"
+		data-o-component="o-video"
+		data-o-video-id="4165329773001"
+		data-o-video-advertising="true"
+		data-o-video-placeholder="true"
+- 		data-o-video-placeholdertitle="true"
++ 		data-o-video-placeholder-info="['title']"
+	></div>
+</div>
+```
+
+The `optimumwidth` property is no longer used for the video width, it is now only used for the poster image width. To choose an optimum video width you can use the new property `optimumvideowidth`.
+
+
+```diff
+<div class="video-container">
+	<div class="o-video" data-o-component="o-video"
+		data-o-video-source="Brightcove"
+		data-o-component="o-video"
+		data-o-video-id="4165329773001"
+		data-o-video-advertising="true"
+		data-o-video-placeholder="true"
+		data-o-video-placeholder-info="['title']"
+		data-o-video-optimumwidth="400"
++ 		data-o-video-optimumvideowidth="400"
 	></div>
 </div>
 ```

@@ -11,6 +11,7 @@
     "o-colors": "^4",
     "o-loading": "^3.0.0",
     "o-typography": "^5",
-    "o-viewport": "^3.0.1"
+    "o-viewport": "^3.0.1",
+    "o-normalise": "^1.6.2"
   }
 }

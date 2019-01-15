@@ -1,5 +1,6 @@
-@if $o-video-is-silent == false {
-
+/// @access private
+/// Outputs styles for ads embedded in videos
+@mixin _oVideoAds {
 	.o-video__overlay,
 	.o-video__ad {
 		position: absolute;
@@ -51,5 +52,4 @@
 			margin-left: -11px;
 		}
 	}
-
 }
