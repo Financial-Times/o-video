@@ -23,14 +23,6 @@
 	}
 
 	.o-video__live-region {
-		position: absolute;
-		clip: rect(0 0 0 0);
-		margin: -1px;
-		border: 0;
-		overflow: hidden;
-		padding: 0;
-		width: 1px;
-		height: 1px;
-		white-space: nowrap;
+		@include oNormaliseVisuallyHidden();
 	}
 }
