@@ -1,7 +1,5 @@
-/// @param Boolean $o-video-is-silent
 /// @access private
 /// Outputs styles for ads embedded in videos
-
 @mixin _oVideoAds {
 	.o-video__overlay,
 	.o-video__ad {
