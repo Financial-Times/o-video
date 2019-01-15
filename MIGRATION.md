@@ -9,7 +9,7 @@ It also removes the dependency on `o-fetch-jsonp`, and requires the `fetch` poly
 
 This version also introduces the primary mixin, `oVideo()`.
 
-It separates styling into private mixins, and privatises the following exisiting mixins:
+The following mixins are now private. Make sure your project does not use them, use `oVideo` instead:
 
 ```diff
 -oVideoInfoSmall

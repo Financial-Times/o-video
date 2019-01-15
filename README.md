@@ -26,7 +26,6 @@ Videos can be styled in three different sizes, namely 'small', 'medium' and 'lar
 
 ## Sass
 
-
 In order to output every size and attribute of `o-video`, you'll need to include the following:
 
 ```scss
