@@ -1,5 +1,4 @@
-@if $o-video-is-silent == false {
-
+@mixin _oVideoPlaceholder {
 	.o-video__placeholder,
 	.o-video__placeholder-image {
 		position: absolute;
@@ -67,5 +66,4 @@
 			background-color: oColorsGetPaletteColor('claret');
 		}
 	}
-
 }
