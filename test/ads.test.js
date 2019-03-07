@@ -2,9 +2,9 @@
 /* eslint-env mocha */
 /* eslint-disable no-unused-expressions */
 
-import Ads from './../src/js/ads';
-import sinon from 'sinon/pkg/sinon';
-import proclaim from 'proclaim';
+const Ads = require('./../src/js/ads');
+const sinon = require('sinon/pkg/sinon');
+const proclaim = require('proclaim');
 
 describe('Ads', () => {
 
