@@ -159,6 +159,7 @@ class Video {
 		this.amountWatched = 0;
 		this.fireWatchedEvent = unloadListener.bind(this);
 		this.visibilityListener = visibilityListener.bind(this);
+		this.didUserPressPlay = false;
 
 		this.opts = Object.assign({}, defaultOpts, opts, getOptionsFromDataAttributes(this.containerEl.attributes));
 
@@ -261,6 +262,9 @@ class Video {
 		this.videoEl.addEventListener('pause', this.updateAmountWatched.bind(this));
 		this.videoEl.addEventListener('suspend', this.clearCurrentlyPlaying.bind(this));
 		this.videoEl.addEventListener('ended', this.clearCurrentlyPlaying.bind(this));
+		this.videoEl.addEventListener('playing', () => {
+			console.log(`Show banner ${this.didUserPressPlay ? 'n' : 'y'}`);
+		});
 
 		if (this.opts.advertising) {
 			this.videoAds.setUpAds();
@@ -339,7 +343,10 @@ class Video {
 
 		this.placeholderEl.appendChild(playButtonEl);
 
-		this.placeholderEl.addEventListener('click', this.play.bind(this));
+		this.placeholderEl.addEventListener('click', () => {
+			this.didUserPressPlay = true;
+			this.play();
+		});
 
 		this.updatePlaceholder();
 
@@ -384,6 +391,8 @@ class Video {
 			this.videoEl.pause();
 		}
 		this.clearCurrentlyPlaying();
+		console.log('clear autoplay')
+		this.didUserPressPlay = false;
 
 		this.opts = Object.assign(this.opts, { data: null }, newOpts);
 
