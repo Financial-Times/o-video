@@ -9,7 +9,7 @@ const closeButton = (onClick) => {
 	return button;
 }
 
-const container = () => {
+const container = (bannerMode) => {
 	const containerEl = document.createElement('div');
 	containerEl.className = `o-video__guidance ${bannerMode && 'o-video__guidance--banner'}`;
 	return containerEl;
@@ -26,18 +26,22 @@ const link = () => {
 }
 
 
-const createGuidance = ({
-	autoClose = null,
-	showCloseButton = false
-} = {}) => {
+export const createGuidancePlaceholder = () => {
 	const containerEl = container(); 
 	containerEl.appendChild(link());
-	if (showCloseButton) {
-		containerEl.appendChild(
-			closeButton(() => containerEl.remove())
-		);
-	}
-	return containerEl;
+	return { element: containerEl };
 }
 
-export default createGuidance;
+export const createGuidanceBanner = ({
+	closeTimeout = 5
+} = {}) =>  {
+	const containerEl = container(true); 
+	const teardown = () => containerEl.remove();
+
+	containerEl.appendChild(closeButton(teardown));
+	containerEl.appendChild(link());
+
+	setTimeout(teardown, closeTimeout * 1000);
+
+	return { element: containerEl, teardown };
+}
