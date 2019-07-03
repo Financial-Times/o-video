@@ -5,6 +5,7 @@ import getRendition from './helpers/get-rendition';
 import VideoAds from './ads';
 import VideoInfo from './info';
 import Playlist from './playlist';
+import createGuidance from './guidance';
 
 function eventListener(video, ev) {
 
@@ -331,15 +332,26 @@ class Video {
 		if (this.opts.placeholderInfo.length) {
 			this.infoPanel = new VideoInfo(this);
 		}
-
+		
 		// play button
+		const playCTA = document.createElement('div');
+		playCTA.className = `o-video__play-cta ${this.opts.placeholderHint ? 'o-video__play-cta--with-hint' : 'o-video__play-cta--without-hint'}`;
+
 		const playButtonEl = document.createElement('button');
 		playButtonEl.className = 'o-video__play-button';
 
 		this.playButtonIconEl = document.createElement('span');
 		this.playButtonIconEl.className = 'o-video__play-button-icon';
 		this.playButtonIconEl.textContent = this.opts.placeholderHint;
-		playButtonEl.appendChild(this.playButtonIconEl);
+		
+
+		playCTA.appendChild(this.playButtonIconEl);
+
+		const { captionsUrl } = this.videoData || {};
+		if (!captionsUrl) {
+			playCTA.appendChild(createGuidance());
+		}
+		playButtonEl.appendChild(playCTA);
 
 		this.placeholderEl.appendChild(playButtonEl);
 
@@ -391,7 +403,7 @@ class Video {
 			this.videoEl.pause();
 		}
 		this.clearCurrentlyPlaying();
-		console.log('clear autoplay')
+
 		this.didUserPressPlay = false;
 
 		this.opts = Object.assign(this.opts, { data: null }, newOpts);

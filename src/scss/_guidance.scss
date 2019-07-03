@@ -1,0 +1,45 @@
+$white: oColorsGetPaletteColor('white');
+
+.o-video__guidance {
+    background-color: rgba(0,0,0,0.75);
+    // @include oTypographyLinkExternal;
+    @include oTypographySans(-1);
+    padding: 10px 16px;
+    a {
+        color: $white;
+        text-decoration: none;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+    a:visited {
+        text-decoration: none;
+    }
+}
+
+.o-video__guidance__text {
+    @include oTypographyLinkCustom($white, $white);
+	@include oTypographyLinkExternalIcon($white);
+    color: $white;
+    border-bottom: none;
+}
+
+.o-video--large {
+    .o-video__play-cta--without-hint {
+        .o-video__play-button-icon {
+            width: 60px;
+            height: 60px;
+        }
+        .o-video__guidance {
+            padding: 21px 16px;
+        }
+    }
+}
+
+.o-video__play-cta--with-hint {
+    .o-video__guidance {
+        padding: 10px 16px;
+    }
+}
