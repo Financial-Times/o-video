@@ -5,6 +5,15 @@ $white: oColorsGetPaletteColor('white');
     // @include oTypographyLinkExternal;
     @include oTypographySans(-1);
     padding: 10px 16px;
+
+    &--banner {
+        padding: 6px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 2;
+    }
+
     a {
         color: $white;
         text-decoration: none;
@@ -19,19 +28,27 @@ $white: oColorsGetPaletteColor('white');
     }
 }
 
-.o-video__guidance__text {
+.o-video__guidance__link {
     @include oTypographyLinkCustom($white, $white);
 	@include oTypographyLinkExternalIcon($white);
     color: $white;
     border-bottom: none;
 }
 
+.o-video__guidance--banner {
+    .o-video__guidance__link {
+        padding-left: 6px;
+    }
+}
+
+.o-video__guidance__close {
+    @include oButtons();
+    @include oButtonsTheme($theme: 'inverse');
+    @include oButtonsIconButton($icon-name: cross, $is-icon-only: true, $theme: 'inverse');
+}
+
 .o-video--large {
     .o-video__play-cta--without-hint {
-        .o-video__play-button-icon {
-            width: 60px;
-            height: 60px;
-        }
         .o-video__guidance {
             padding: 21px 16px;
         }

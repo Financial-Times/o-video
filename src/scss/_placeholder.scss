@@ -72,4 +72,12 @@
 			}
 		}
 	}
+	.o-video--large {
+		.o-video__play-cta--without-hint {
+			.o-video__play-button-icon {
+				width: 60px;
+				height: 60px;
+			}
+		}
+	}
 }
