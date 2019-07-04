@@ -2,7 +2,6 @@ $white: oColorsGetPaletteColor('white');
 
 .o-video__guidance {
     background-color: rgba(0,0,0,0.75);
-    // @include oTypographyLinkExternal;
     @include oTypographySans(-1);
     padding: 10px 16px;
 
@@ -32,19 +31,21 @@ $white: oColorsGetPaletteColor('white');
     @include oTypographyLinkCustom($white, $white);
 	@include oTypographyLinkExternalIcon($white);
     color: $white;
-    border-bottom: none;
+	border-bottom: none;
 }
 
 .o-video__guidance--banner {
     .o-video__guidance__link {
-        padding-left: 6px;
+		padding-left: 6px;
+		top: -4px;
+		position: relative;
     }
 }
 
 .o-video__guidance__close {
-    @include oButtons();
-    @include oButtonsTheme($theme: 'inverse');
-    @include oButtonsIconButton($icon-name: cross, $is-icon-only: true, $theme: 'inverse');
+	@include oIconsGetIcon('cross', $color: $white, $container-width: 20px);
+	border: 0;
+	cursor: pointer;
 }
 
 .o-video--large {
