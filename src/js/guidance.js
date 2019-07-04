@@ -43,7 +43,7 @@ const link = () => {
 		this.banner.appendChild(closeButton(this.removeBanner));
 		this.banner.appendChild(link());
 
-		setTimeout(this.removeBanner, 5000);
+		setTimeout(this.removeBanner, 5000000);
 
 		return this.banner;
 	}

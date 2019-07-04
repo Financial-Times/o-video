@@ -922,6 +922,25 @@ describe('Video', () => {
 					.then(() => videoDataShouldMatch(video));
 			});
 		});
+
+		context('accessiblity', () => {
+			let fetchStub;
+
+			afterEach(() => {
+				fetchStub.restore();
+			});
+
+			it.only('displays message on placeholder for videos without captions', () => {
+
+				const res1 = new window.Response(JSON.stringify(mediaApiResponse1), {
+					status: 200,
+					headers: { 'Content-type': 'application/json' }
+				});
+
+				fetchStub = sinon.stub(window, 'fetch');
+				fetchStub.resolves(res1);
+			})
+		});
 	});
 });
 
