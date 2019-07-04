@@ -25,23 +25,32 @@ const link = () => {
 	return linkEl;
 }
 
+ class Guidance {
 
-export const createGuidancePlaceholder = () => {
-	const containerEl = container(); 
-	containerEl.appendChild(link());
-	return { element: containerEl };
+	constructor () {
+		this.removeBanner = this.removeBanner.bind(this);
+	}
+
+	createPlaceholder () {
+		const containerEl = container(); 
+		containerEl.appendChild(link());
+		return containerEl;
+	}
+
+	createBanner () {
+		this.banner = container(true); 
+
+		this.banner.appendChild(closeButton(this.removeBanner));
+		this.banner.appendChild(link());
+
+		setTimeout(this.removeBanner, 5000);
+
+		return this.banner;
+	}
+
+	removeBanner () {
+		this.banner && this.banner.remove();
+	}
 }
 
-export const createGuidanceBanner = ({
-	closeTimeout = 5
-} = {}) =>  {
-	const containerEl = container(true); 
-	const teardown = () => containerEl.remove();
-
-	containerEl.appendChild(closeButton(teardown));
-	containerEl.appendChild(link());
-
-	setTimeout(teardown, closeTimeout * 1000);
-
-	return { element: containerEl, teardown };
-}
+export default Guidance;

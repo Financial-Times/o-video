@@ -5,10 +5,7 @@ import getRendition from './helpers/get-rendition';
 import VideoAds from './ads';
 import VideoInfo from './info';
 import Playlist from './playlist';
-import {
-	createGuidancePlaceholder,
-	createGuidanceBanner
-} from './guidance';
+import Guidance from './guidance';
 
 function eventListener(video, ev) {
 
@@ -191,6 +188,8 @@ class Video {
 		if (this.opts.autorender === true) {
 			this.init();
 		}
+
+		this.guidance = new Guidance();
 	}
 
 	getData() {
@@ -313,7 +312,7 @@ class Video {
 		}
 
 		this.videoEl.src = this.rendition && this.rendition.url;
-		this.removeGuidanceBanner && this.removeGuidanceBanner();
+		this.guidance.removeBanner();
 		this.videoEl.addEventListener('playing', this.showGuidanceBanner.bind(this), { once: true });	
 
 		this.addCaptions();
@@ -351,7 +350,7 @@ class Video {
 
 		const { captionsUrl } = this.videoData || {};
 		if (!captionsUrl) {
-			playCTA.appendChild(createGuidancePlaceholder().element);
+			playCTA.appendChild(this.guidance.createPlaceholder());
 		}
 		playButtonEl.appendChild(playCTA);
 
@@ -474,18 +473,10 @@ class Video {
 		this.amountWatched = 0;
 	}
 
-	// bindToPlayForGuidance () {
-	// 	this.videoEl.addEventListener('playing', this.showGuidanceBanner.bind(this), { once: true });
-	// }
-
 	showGuidanceBanner () {
-		console.log(this.videoData)
 		const { captionsUrl } = this.videoData || {};
-		console.log(this.didUserPressPlay, captionsUrl)
 		if (!this.didUserPressPlay && !captionsUrl) {
-			const { element, teardown } = createGuidanceBanner();
-			this.containerEl.appendChild(element);
-			this.removeGuidanceBanner = teardown;
+			this.containerEl.appendChild(this.guidance.createBanner());
 		}
 	}
 
