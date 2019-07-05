@@ -17,7 +17,7 @@ const container = (bannerMode) => {
 
 const link = () => {
 	const linkEl = document.createElement('a');
-	linkEl.setAttribute('href', 'https://www.ft.com/accessibility');
+	linkEl.setAttribute('href', 'https://www.ft.com/accessibility#video-transcriptions');
 	linkEl.className = 'o-video__guidance__link';
 	linkEl.innerText = 'Subtitles unavailable';
 	linkEl.target = '_blank';
