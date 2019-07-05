@@ -1,69 +1,74 @@
 /// @access private
 /// Outputs styling for accessibility components
-$white: oColorsGetPaletteColor('white');
 
-.o-video__guidance {
-    background-color: rgba(0,0,0,0.75);
-    @include oTypographySans(-1);
-    padding: 10px 16px;
+@mixin _oVideoGuidance {
+    
+    $white: oColorsGetPaletteColor('white');
 
-    &--banner {
-        padding: 6px;
-        position: absolute;
-        top: 0;
-        left: 0;
-        z-index: 2;
-    }
+    .o-video__guidance {
+        // background-color: rgba(0,0,0, 0.75); //@origami - is this rogue?
+        background-color:  oColorsMix($color: 'black', $background: 'transparent', $percentage: 75);
+        @include oTypographySans(-1);
+        padding: 10px 16px;
 
-    a {
-        color: $white;
-        text-decoration: none;
-    }
+        &--banner {
+            padding: 6px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 2;
+        }
 
-    a:hover {
-        text-decoration: underline;
-    }
+        a {
+            color: $white;
+            text-decoration: none;
+        }
 
-    a:visited {
-        text-decoration: none;
-    }
-}
+        a:hover {
+            text-decoration: underline;
+        }
 
-.o-video__guidance__link {
-    @include oTypographyLinkCustom($white, $white);
-	@include oTypographyLinkExternalIcon($white);
-    color: $white;
-	border-bottom: none;
-}
-
-.o-video__guidance--banner {
-    .o-video__guidance__link {
-		padding-left: 6px;
-		top: -4px;
-		position: relative;
-    }
-}
-
-.o-video__guidance__close {
-	@include oIconsGetIcon('cross', $color: $white, $container-width: 20px);
-	border: 0;
-    cursor: pointer;
-
-    &:hover {
-        @include _oButtonsColors('hover', 'inverse');
-    }
-}
-
-.o-video--large {
-    .o-video__play-cta--without-hint {
-        .o-video__guidance {
-            padding: 21px 16px;
+        a:visited {
+            text-decoration: none;
         }
     }
-}
 
-.o-video__play-cta--with-hint {
-    .o-video__guidance {
-        padding: 10px 16px;
+    .o-video__guidance__link {
+        @include oTypographyLinkCustom($white, $white);
+        @include oTypographyLinkExternalIcon($white);
+        color: $white;
+        border-bottom: none;
+    }
+
+    .o-video__guidance--banner {
+        .o-video__guidance__link {
+            padding-left: 6px;
+            top: -4px;
+            position: relative;
+        }
+    }
+
+    .o-video__guidance__close {
+        @include oIconsGetIcon('cross', $color: $white, $container-width: 20px);
+        border: 0;
+        cursor: pointer;
+
+        &:hover {
+            @include _oButtonsColors('hover', 'inverse');
+        }
+    }
+
+    .o-video--large {
+        .o-video__play-cta--without-hint {
+            .o-video__guidance {
+                padding: 21px 16px;
+            }
+        }
+    }
+
+    .o-video__play-cta--with-hint {
+        .o-video__guidance {
+            padding: 10px 16px;
+        }
     }
 }

@@ -36,6 +36,8 @@ $o-video-is-silent: true !default;
 	@if index($attributes, 'info') {
 		@include _oVideoInfo($sizes);
 	}
+
+	@include _oVideoGuidance();
 }
 
 @if $o-video-is-silent == false {
