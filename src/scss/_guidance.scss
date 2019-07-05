@@ -33,19 +33,23 @@
         }
     }
 
-    .o-video__guidance__link {
-        @include oTypographyLinkCustom($white, $white);
-        @include oTypographyLinkExternalIcon($white);
-        color: $white;
-        border-bottom: none;
-    }
-
     .o-video__guidance--banner {
         .o-video__guidance__link {
             padding-left: 6px;
             top: -4px;
             position: relative;
         }
+    }
+
+    .o-video__guidance--hidden {
+        visibility: hidden;
+    }
+
+    .o-video__guidance__link {
+        @include oTypographyLinkCustom($white, $white);
+        @include oTypographyLinkExternalIcon($white);
+        color: $white;
+        border-bottom: none;
     }
 
     .o-video__guidance__close {

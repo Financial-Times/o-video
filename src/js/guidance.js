@@ -11,7 +11,7 @@ const closeButton = (onClick) => {
 
 const container = (bannerMode) => {
 	const containerEl = document.createElement('div');
-	containerEl.className = `o-video__guidance ${bannerMode && 'o-video__guidance--banner'}`;
+	containerEl.className = `o-video__guidance ${bannerMode ? 'o-video__guidance--banner' : ''}`;
 	return containerEl;
 }
 
@@ -29,6 +29,7 @@ const link = () => {
 
 	constructor () {
 		this.removeBanner = this.removeBanner.bind(this);
+		this.hideBanner = this.hideBanner.bind(this);
 	}
 
 	createPlaceholder () {
@@ -43,13 +44,17 @@ const link = () => {
 		this.banner.appendChild(closeButton(this.removeBanner));
 		this.banner.appendChild(link());
 
-		setTimeout(this.removeBanner, 5000);
+		setTimeout(this.hideBanner, 5000);
 
 		return this.banner;
 	}
 
 	removeBanner () {
 		this.banner && this.banner.remove();
+	}
+
+	hideBanner () {
+		this.banner && this.banner.classList.add('o-video__guidance--hidden');
 	}
 }
 
