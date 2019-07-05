@@ -47,7 +47,11 @@ $white: oColorsGetPaletteColor('white');
 .o-video__guidance__close {
 	@include oIconsGetIcon('cross', $color: $white, $container-width: 20px);
 	border: 0;
-	cursor: pointer;
+    cursor: pointer;
+
+    &:hover {
+        @include _oButtonsColors('hover', 'inverse');
+    }
 }
 
 .o-video--large {
