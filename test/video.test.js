@@ -922,24 +922,68 @@ describe('Video', () => {
 					.then(() => videoDataShouldMatch(video));
 			});
 		});
+	});
 
-		context('accessiblity', () => {
-			let fetchStub;
+	context('Videos without subtitles', () => {
+		let fetchStub;
 
-			afterEach(() => {
-				fetchStub.restore();
+		beforeEach(() => {
+			const mediaApiResponseWithoutCaptions = Object.assign({}, mediaApiResponse1, { captionsUrl: null });
+			const res1 = new window.Response(JSON.stringify(mediaApiResponseWithoutCaptions), {
+				status: 200,
+				headers: { 'Content-type': 'application/json' }
 			});
 
-			it.only('displays message on placeholder for videos without captions', () => {
+			fetchStub = sinon.stub(window, 'fetch');
+			fetchStub.resolves(res1);
+		})
+		afterEach(() => {
+			fetchStub.restore();
+		});
 
-				const res1 = new window.Response(JSON.stringify(mediaApiResponse1), {
-					status: 200,
-					headers: { 'Content-type': 'application/json' }
-				});
+		it('a guidance message is displayed on the placholder', () => {
+			const video = new Video(containerEl, { placeholder: true });
 
-				fetchStub = sinon.stub(window, 'fetch');
-				fetchStub.resolves(res1);
+			return video.init().then(() => {
+				proclaim.ok(containerEl.querySelector('.o-video__guidance'));
 			})
+		});
+
+		context('guidance banner', () => {
+			it('is displayed for autoplaying videos', () => {
+				const video = new Video(containerEl);
+				return video.init().then(() => {
+					video.videoEl.dispatchEvent(new Event('playing'));
+					proclaim.ok(containerEl.querySelector('.o-video__guidance--banner'));
+				});
+			});
+
+			it('can be closed', () => {
+				const video = new Video(containerEl);
+				return video.init().then(() => {
+					video.videoEl.dispatchEvent(new Event('playing'));
+					containerEl.querySelector('.o-video__guidance__close').dispatchEvent(new Event('click'));
+					proclaim.notOk(containerEl.querySelector('.o-video__guidance--banner'));
+				})
+			});
+
+			it('is removed when the next video in the playlist is played', () => {
+				const video = new Video(containerEl);
+				return video.init()
+					.then(() => {
+						const resWithCaptions = new window.Response(JSON.stringify(mediaApiResponse2), {
+							status: 200,
+							headers: { 'Content-type': 'application/json' }
+						});
+				
+						fetchStub.resetBehavior();
+						fetchStub.returns(Promise.resolve(resWithCaptions));
+						const newOpts = { id: mediaApiResponse2.id };
+						return video.update(newOpts);
+					}).then(() => {
+						proclaim.notOk(containerEl.querySelector('.o-video__guidance--banner'));
+					});
+			});
 		});
 	});
 });
