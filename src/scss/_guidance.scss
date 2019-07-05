@@ -8,6 +8,10 @@
         @include oTypographySans(-1);
         background-color:  oColorsMix($color: 'black', $background: 'transparent', $percentage: 75);
         padding: 10px 16px;
+		// sass-lint:disable no-vendor-prefixes
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+		// sass-lint:enable no-vendor-prefixes
 
         &--banner {
             padding: 6px;
