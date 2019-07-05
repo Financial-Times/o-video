@@ -936,7 +936,8 @@ describe('Video', () => {
 
 			fetchStub = sinon.stub(window, 'fetch');
 			fetchStub.resolves(res1);
-		})
+		});
+
 		afterEach(() => {
 			fetchStub.restore();
 		});
@@ -946,7 +947,7 @@ describe('Video', () => {
 
 			return video.init().then(() => {
 				proclaim.ok(containerEl.querySelector('.o-video__guidance'));
-			})
+			});
 		});
 
 		context('guidance banner', () => {
@@ -964,7 +965,7 @@ describe('Video', () => {
 					video.videoEl.dispatchEvent(new Event('playing'));
 					containerEl.querySelector('.o-video__guidance__close').dispatchEvent(new Event('click'));
 					proclaim.notOk(containerEl.querySelector('.o-video__guidance--banner'));
-				})
+				});
 			});
 
 			it('is removed when the next video in the playlist is played', () => {
@@ -975,7 +976,7 @@ describe('Video', () => {
 							status: 200,
 							headers: { 'Content-type': 'application/json' }
 						});
-				
+
 						fetchStub.resetBehavior();
 						fetchStub.returns(Promise.resolve(resWithCaptions));
 						const newOpts = { id: mediaApiResponse2.id };

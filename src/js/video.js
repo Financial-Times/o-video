@@ -313,7 +313,7 @@ class Video {
 
 		this.videoEl.src = this.rendition && this.rendition.url;
 		this.guidance.removeBanner();
-		this.videoEl.addEventListener('playing', this.showGuidanceBanner.bind(this), { once: true });	
+		this.videoEl.addEventListener('playing', this.showGuidanceBanner.bind(this), { once: true });
 
 		this.addCaptions();
 	}
@@ -333,7 +333,7 @@ class Video {
 		if (this.opts.placeholderInfo.length) {
 			this.infoPanel = new VideoInfo(this);
 		}
-		
+
 		// play button
 		const playCTA = document.createElement('div');
 		playCTA.className = `o-video__play-cta ${this.opts.placeholderHint ? 'o-video__play-cta--with-hint' : 'o-video__play-cta--without-hint'}`;
@@ -344,7 +344,7 @@ class Video {
 		this.playButtonIconEl = document.createElement('span');
 		this.playButtonIconEl.className = 'o-video__play-button-icon';
 		this.playButtonIconEl.textContent = this.opts.placeholderHint;
-		
+
 
 		playCTA.appendChild(this.playButtonIconEl);
 

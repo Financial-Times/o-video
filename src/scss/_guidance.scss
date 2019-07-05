@@ -5,8 +5,8 @@
     $white: oColorsGetPaletteColor('white');
 
     .o-video__guidance {
-        background-color:  oColorsMix($color: 'black', $background: 'transparent', $percentage: 75);
         @include oTypographySans(-1);
+        background-color:  oColorsMix($color: 'black', $background: 'transparent', $percentage: 75);
         padding: 10px 16px;
 
         &--banner {
@@ -47,7 +47,7 @@
         @include oTypographyLinkCustom($white, $white);
         @include oTypographyLinkExternalIcon($white);
         color: $white;
-        border-bottom: none;
+        border-bottom: 0;
     }
 
     .o-video__guidance__close {
