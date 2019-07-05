@@ -60,7 +60,7 @@
         cursor: pointer;
 
         &:hover {
-            @include _oButtonsColors('hover', 'inverse');
+            background-color: oColorsMix($color: 'black', $background: 'white', $percentage: 75);
         }
     }
 

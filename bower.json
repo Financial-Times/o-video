@@ -12,7 +12,6 @@
     "o-loading": "^3.0.0",
     "o-typography": "^5",
     "o-viewport": "^3.0.1",
-    "o-normalise": "^1.6.2",
-    "o-buttons": "^5.16.6"
+    "o-normalise": "^1.6.2"
   }
 }
