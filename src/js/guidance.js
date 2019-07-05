@@ -40,7 +40,6 @@ const link = () => {
 
 	createBanner () {
 		this.banner = container(true); 
-
 		this.banner.appendChild(closeButton(this.removeBanner));
 		this.banner.appendChild(link());
 

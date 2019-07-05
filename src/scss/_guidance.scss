@@ -2,11 +2,9 @@
 /// Outputs styling for accessibility components
 
 @mixin _oVideoGuidance {
-    
     $white: oColorsGetPaletteColor('white');
 
     .o-video__guidance {
-        // background-color: rgba(0,0,0, 0.75); //@origami - is this rogue?
         background-color:  oColorsMix($color: 'black', $background: 'transparent', $percentage: 75);
         @include oTypographySans(-1);
         padding: 10px 16px;
