@@ -7,6 +7,14 @@ import VideoInfo from './info';
 import Playlist from './playlist';
 import Guidance from './guidance';
 
+function listenOnce(el, eventName, fn) {
+	const wrappedFn = function(...args) {
+		el.removeEventListener(eventName, wrappedFn);
+		fn(...args);
+	};
+	el.addEventListener(eventName, wrappedFn);
+}
+
 function eventListener(video, ev) {
 
 	// On some platforms (eg iOS), the Google advert library will use the main <video> element
@@ -313,7 +321,7 @@ class Video {
 
 		this.videoEl.src = this.rendition && this.rendition.url;
 		this.guidance.removeBanner();
-		this.videoEl.addEventListener('playing', this.showGuidanceBanner.bind(this), { once: true });
+		listenOnce(this.videoEl, 'playing', this.showGuidanceBanner.bind(this));
 
 		this.addCaptions();
 	}
