@@ -44,7 +44,7 @@ class Guidance {
 		this.banner.appendChild(closeButton(this.removeBanner));
 		this.banner.appendChild(link());
 
-		setTimeout(this.hideBanner, 5000);
+		this.timeout = setTimeout(this.hideBanner, 5000);
 
 		return this.banner;
 	}
@@ -52,6 +52,7 @@ class Guidance {
 	removeBanner () {
 		if (this.banner) {
 			this.banner.remove();
+			clearTimeout(this.timeout);
 		}
 	}
 
