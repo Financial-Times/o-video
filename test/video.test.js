@@ -958,7 +958,7 @@ describe('Video', () => {
 				const video = new Video(guidanceLessContainerEl, { placeholder: true });
 
 				return video.init().then(() => {
-					proclaim.ok(guidanceLessContainerEl.querySelector('.o-video__guidance'));
+					proclaim.notOk(guidanceLessContainerEl.querySelector('.o-video__guidance'));
 				});
 			});
 		});
