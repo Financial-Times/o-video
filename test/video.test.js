@@ -942,11 +942,24 @@ describe('Video', () => {
 			fetchStub.restore();
 		});
 
-		it('a guidance message is displayed on the placholder', () => {
-			const video = new Video(containerEl, { placeholder: true });
+		context('on the placeholder, a guidance message', () => {
+			it('is displayed by default', () => {
+				const video = new Video(containerEl, { placeholder: true });
 
-			return video.init().then(() => {
-				proclaim.ok(containerEl.querySelector('.o-video__guidance'));
+				return video.init().then(() => {
+					proclaim.ok(containerEl.querySelector('.o-video__guidance'));
+				});
+			});
+
+
+			it('is not displayed if showGuidance option is set false', () => {
+				const guidanceLessContainerEl = containerEl.cloneNode(true);
+				guidanceLessContainerEl.setAttribute('data-o-video-show-guidance', false);
+				const video = new Video(guidanceLessContainerEl, { placeholder: true });
+
+				return video.init().then(() => {
+					proclaim.ok(guidanceLessContainerEl.querySelector('.o-video__guidance'));
+				});
 			});
 		});
 
