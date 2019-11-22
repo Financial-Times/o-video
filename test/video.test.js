@@ -953,12 +953,12 @@ describe('Video', () => {
 
 
 			it('is not displayed if showGuidance option is set false', () => {
-				const guidanceLessContainerEl = containerEl.cloneNode(true);
-				guidanceLessContainerEl.setAttribute('data-o-video-show-guidance', false);
-				const video = new Video(guidanceLessContainerEl, { placeholder: true });
+				containerEl.setAttribute('data-o-video-show-guidance', false);
+				const video = new Video(containerEl, { placeholder: true });
 
 				return video.init().then(() => {
-					proclaim.notOk(guidanceLessContainerEl.querySelector('.o-video__guidance'));
+					proclaim.notOk(containerEl.querySelector('.o-video__guidance'));
+					containerEl.setAttribute('data-o-video-show-guidance', true);
 				});
 			});
 		});
@@ -969,6 +969,16 @@ describe('Video', () => {
 				return video.init().then(() => {
 					video.videoEl.dispatchEvent(new Event('playing'));
 					proclaim.ok(containerEl.querySelector('.o-video__guidance--banner'));
+				});
+			});
+
+			it('is not displayed for autoplaying videos if option is set to false', () => {
+				containerEl.setAttribute('data-o-video-show-guidance', false);
+				const video = new Video(containerEl);
+				return video.init().then(() => {
+					video.videoEl.dispatchEvent(new Event('playing'));
+					proclaim.notOk(containerEl.querySelector('.o-video__guidance--banner'));
+					containerEl.setAttribute('data-o-video-show-guidance', true);
 				});
 			});
 
