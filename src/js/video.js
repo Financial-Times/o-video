@@ -158,7 +158,6 @@ const defaultOpts = {
 	placeholderHint: '',
 	playsinline: false,
 	showCaptions: true,
-	showGuidance: true,
 	data: null
 };
 
@@ -170,6 +169,7 @@ class Video {
 		this.fireWatchedEvent = unloadListener.bind(this);
 		this.visibilityListener = visibilityListener.bind(this);
 		this.didUserPressPlay = false;
+		this.disableGuidance = el.dataset.oVideoDisableguidance;
 
 		this.opts = Object.assign({}, defaultOpts, opts, getOptionsFromDataAttributes(this.containerEl.attributes));
 
@@ -202,7 +202,7 @@ class Video {
 			this.init();
 		}
 
-		if (this.opts.showGuidance) {
+		if (!this.disableGuidance) {
 			this.guidance = new Guidance();
 		}
 	}
