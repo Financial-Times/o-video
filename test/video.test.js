@@ -968,13 +968,13 @@ describe('Video', () => {
 			});
 
 
-			it('is not displayed if showGuidance option is set false', () => {
-				containerEl.setAttribute('data-o-video-show-guidance', false);
+			it('is not displayed if disableGuidance option is set true', () => {
+				containerEl.setAttribute('data-o-video-disableGuidance', true);
 				const video = new Video(containerEl, { placeholder: true });
 
 				return video.init().then(() => {
 					proclaim.notOk(containerEl.querySelector('.o-video__guidance'));
-					containerEl.setAttribute('data-o-video-show-guidance', true);
+					containerEl.setAttribute('data-o-video-disableGuidance', false);
 				});
 			});
 		});
@@ -989,12 +989,12 @@ describe('Video', () => {
 			});
 
 			it('is not displayed for autoplaying videos if option is set to false', () => {
-				containerEl.setAttribute('data-o-video-show-guidance', false);
+				containerEl.setAttribute('data-o-video-disableGuidance', true);
 				const video = new Video(containerEl);
 				return video.init().then(() => {
 					video.videoEl.dispatchEvent(new Event('playing'));
 					proclaim.notOk(containerEl.querySelector('.o-video__guidance--banner'));
-					containerEl.setAttribute('data-o-video-show-guidance', true);
+					containerEl.setAttribute('data-o-video-disableGuidance', false);
 				});
 			});
 
