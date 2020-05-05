@@ -49,10 +49,10 @@
 		@include oTypographyLink(
 			$theme: (
 				'base': 'white',
-                'hover': 'white'
-            ),
-            $external: true
-        );
+				'hover': 'white'
+			),
+			$external: true
+		);
 		color: oColorsByName('white');
 		border-bottom: 0;
 	}
