@@ -32,7 +32,7 @@ describe('Video', () => {
 			proclaim.equal(video.opts.id, 'eebe9cb5-8d4c-3bd7-8dd9-50e869e2f526');
 
 			proclaim.ok(video.targeting);
-			proclaim.equal(video.targeting.site, '/5887/ft.com');
+			proclaim.equal(video.targeting.site, '/5886/ft.com');
 			proclaim.equal(video.targeting.position, 'video');
 			proclaim.equal(video.targeting.sizes, '592x333|400x225');
 			proclaim.equal(video.targeting.videoId, 'eebe9cb5-8d4c-3bd7-8dd9-50e869e2f526');
