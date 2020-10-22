@@ -34,7 +34,7 @@ Videos can be styled in three different sizes, namely 'small', 'medium' and 'lar
 In order to output every size and attribute of `o-video`, you'll need to include the following:
 
 ```scss
-@import 'o-video/main';
+@import '@financial-times/o-video/main';
 
 @include oVideo();
 ```
@@ -52,7 +52,7 @@ You can be more selective about which sizes and attributes you would like to out
 - `'large'`
 
 ```scss
-@import 'o-video';
+@import '@financial-times/o-video';
 
 @include oVideo($opts:(
 	'attributes': ('ads'),
