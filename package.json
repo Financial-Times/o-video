@@ -12,16 +12,16 @@
     },
     "main": "main.js",
     "peerDependencies": {
-        "@financial-times/o-colors": "^100.0.0-5",
-        "@financial-times/o-icons": "^100.0.0-5",
-        "@financial-times/o-loading": "^100.0.0-5",
-        "@financial-times/o-normalise": "^100.0.0-5",
-        "@financial-times/o-typography": "^100.0.0-5",
-        "@financial-times/o-viewport": "^100.0.0-5"
+        "@financial-times/o-colors": "^100.0.0-6",
+        "@financial-times/o-icons": "^100.0.0-6",
+        "@financial-times/o-loading": "^100.0.0-6",
+        "@financial-times/o-normalise": "^100.0.0-6",
+        "@financial-times/o-typography": "^100.0.0-6",
+        "@financial-times/o-viewport": "^100.0.0-6"
     },
     "description": "Creates a video player and attaches analytics. Also supports pre roll ads.",
     "publishConfig": {
         "registry": "http://localhost:4873"
     },
-    "version": "100.0.0-5"
+    "version": "100.0.0-6"
 }
