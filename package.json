@@ -1,5 +1,8 @@
 {
     "name": "@financial-times/o-video",
+    "version": "100.0.0-7",
+    "description": "Creates a video player and attaches analytics. Also supports pre roll ads.",
+    "browser": "main.js",
     "devDependencies": {
         "eslint": "^7.8.1",
         "eslint-config-origami-component": "^2.1.0",
@@ -10,7 +13,6 @@
         "stylelint": "^13.7.0",
         "stylelint-config-origami-component": "^1.0.4"
     },
-    "browser": "main.js",
     "peerDependencies": {
         "@financial-times/o-colors": "^100.0.0-7",
         "@financial-times/o-icons": "^100.0.0-7",
@@ -19,9 +21,7 @@
         "@financial-times/o-typography": "^100.0.0-7",
         "@financial-times/o-viewport": "^100.0.0-7"
     },
-    "description": "Creates a video player and attaches analytics. Also supports pre roll ads.",
     "publishConfig": {
         "registry": "http://localhost:4873"
-    },
-    "version": "100.0.0-7"
+    }
 }
