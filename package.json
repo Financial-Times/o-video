@@ -2,7 +2,15 @@
     "name": "@financial-times/o-video",
     "version": "100.0.0-7",
     "description": "Creates a video player and attaches analytics. Also supports pre roll ads.",
-    "browser": "main.js",
+    "license": "MIT",
+    "type": "module",
+    "exports": {
+        ".": {
+            "browser": "./main.js"
+        }
+    },
+    "browser": "./main.js",
+    "types": "types",
     "devDependencies": {
         "eslint": "^7.8.1",
         "eslint-config-origami-component": "^2.1.0",
