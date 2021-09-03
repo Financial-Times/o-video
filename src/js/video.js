@@ -356,6 +356,9 @@ class Video {
 		const playCTA = document.createElement('div');
 		playCTA.className = `o-video__play-cta ${this.opts.placeholderHint ? 'o-video__play-cta--with-hint' : 'o-video__play-cta--without-hint'}`;
 
+		this.placeholderControls = document.createElement('div');
+		this.placeholderControls.className = 'o-video__placeholder-controls';
+
 		this.playButtonEl = document.createElement('button');
 		this.playButtonEl.className = 'o-video__play-button';
 
@@ -363,16 +366,17 @@ class Video {
 		playButtonIconEl.className = 'o-video__play-button-icon';
 		playButtonIconEl.textContent = this.opts.placeholderHint;
 
-
 		playCTA.appendChild(playButtonIconEl);
+
+		this.playButtonEl.appendChild(playCTA);
+		this.placeholderControls.appendChild(this.playButtonEl);
 
 		const { captionsUrl } = this.videoData || {};
 		if (!captionsUrl && this.guidance) {
-			playCTA.appendChild(this.guidance.createPlaceholder());
+			this.placeholderControls.appendChild(this.guidance.createPlaceholder());
 		}
-		this.playButtonEl.appendChild(playCTA);
 
-		this.placeholderEl.appendChild(this.playButtonEl);
+		this.placeholderEl.appendChild(this.placeholderControls);
 
 		this.placeholderEl.addEventListener('click', () => {
 			this.didUserPressPlay = true;
