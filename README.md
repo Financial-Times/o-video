@@ -1,5 +1,11 @@
 # o-video [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](#licence)
 
+***
+
+**This component has moved to the [Origami Component System](https://github.com/Financial-Times/origami).**
+
+***
+
 Creates a video player and attaches analytics. Also supports pre roll ads.
 
 - [Usage](#usage)
